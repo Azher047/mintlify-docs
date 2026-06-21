@@ -1,0 +1,394 @@
+---
+title: "Signals API: Real-Time Revenue, Talent, and Interest"
+sidebarTitle: "Signals"
+description: "Access Specter's real-time signal feeds for revenue disclosures, talent movement, and investor interest — each with confidence scoring and source attribution."
+---
+
+The Signals API surfaces Specter's proprietary intelligence feeds for the three most deal-relevant event types: revenue and profitability disclosures, talent movement into or out of companies, and investor interest activity that precedes announced rounds. Each signal is timestamped, sourced, and scored with a confidence level so you can calibrate how you act on them.
+
+## Revenue Signals
+
+**`GET /api/v1/signals/revenue`**
+
+Retrieve a feed of revenue and profitability signals drawn from public disclosures, press interviews, pitch decks, and data partnerships. Use this to identify companies hitting growth milestones before a round is announced.
+
+### Query Parameters
+
+<ParamField query="from_date" type="string">
+  Return signals on or after this date. ISO 8601 format, e.g. `2024-01-01`.
+</ParamField>
+
+<ParamField query="to_date" type="string">
+  Return signals on or before this date. ISO 8601 format.
+</ParamField>
+
+<ParamField query="company_id" type="string">
+  Filter signals to a specific company by Specter company ID.
+</ParamField>
+
+<ParamField query="min_revenue_usd" type="integer">
+  Return only signals where the reported revenue figure is at or above this threshold in USD.
+</ParamField>
+
+<ParamField query="limit" type="integer">
+  Number of signals to return. Defaults to `20`. Maximum is `100`.
+</ParamField>
+
+<ParamField query="offset" type="integer">
+  Number of records to skip for pagination. Defaults to `0`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://app.tryspecter.com/api/v1/signals/revenue?from_date=2024-01-01&min_revenue_usd=5000000&limit=2" \
+  --header "X-API-Key: YOUR_API_KEY"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sig_rev_04a7bx3c9d1e6f2g",
+      "company_id": "cmp_01h9xk2r4n5t8v3w",
+      "company_name": "Acme AI",
+      "signal_date": "2024-03-10",
+      "revenue_type": "ARR",
+      "amount_usd": 14000000,
+      "period": "2024-Q1",
+      "is_profitable": false,
+      "source_url": "https://techcrunch.com/2024/03/10/acme-ai-arr",
+      "source_type": "press",
+      "confidence": "high"
+    },
+    {
+      "id": "sig_rev_07n2sy5v8w4x1z3q",
+      "company_id": "cmp_04q1mn7r8t3v5x9z",
+      "company_name": "Luminary Health",
+      "signal_date": "2024-02-14",
+      "revenue_type": "Revenue",
+      "amount_usd": 8500000,
+      "period": "2023-FY",
+      "is_profitable": true,
+      "source_url": "https://luminaryhealth.com/blog/2023-annual-report",
+      "source_type": "company_blog",
+      "confidence": "medium"
+    }
+  ],
+  "total": 91,
+  "limit": 2,
+  "offset": 0
+}
+```
+
+### Response Fields
+
+<ResponseField name="data" type="array">
+  Array of revenue signal records matching the query filters.
+  <Expandable title="revenue signal item fields">
+    <ResponseField name="id" type="string">
+      Unique Specter signal ID.
+    </ResponseField>
+    <ResponseField name="company_id" type="string">
+      Specter company ID associated with the signal.
+    </ResponseField>
+    <ResponseField name="company_name" type="string">
+      Name of the company the signal pertains to.
+    </ResponseField>
+    <ResponseField name="signal_date" type="string">
+      ISO 8601 date the revenue figure was disclosed or reported.
+    </ResponseField>
+    <ResponseField name="revenue_type" type="string">
+      The revenue metric disclosed. One of: `ARR` (annual recurring revenue), `Revenue` (total revenue), or `GMV` (gross merchandise value).
+    </ResponseField>
+    <ResponseField name="amount_usd" type="integer">
+      Disclosed revenue figure in USD.
+    </ResponseField>
+    <ResponseField name="period" type="string">
+      The time period the revenue figure covers, e.g. `2024-Q1` or `2023-FY`.
+    </ResponseField>
+    <ResponseField name="is_profitable" type="boolean">
+      `true` if the company explicitly indicated profitability in the same disclosure.
+    </ResponseField>
+    <ResponseField name="source_url" type="string">
+      Direct URL to the source of the signal.
+    </ResponseField>
+    <ResponseField name="source_type" type="string">
+      Category of the original source. Examples: `press`, `company_blog`, `podcast`, `filing`, `data_partner`.
+    </ResponseField>
+    <ResponseField name="confidence" type="string">
+      Specter's confidence in the accuracy of this signal. One of: `high`, `medium`, or `low`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of revenue signals matching the query, before pagination is applied.
+</ResponseField>
+
+<ResponseField name="limit" type="integer">
+  The `limit` value applied to this response.
+</ResponseField>
+
+<ResponseField name="offset" type="integer">
+  The `offset` value applied to this response.
+</ResponseField>
+
+---
+
+## Talent Signals
+
+**`GET /api/v1/signals/talent`**
+
+Retrieve a feed of talent movement signals — including new hires joining high-growth companies, founders entering stealth, YC founders starting new ventures, and more. Use this to identify formation and traction events early.
+
+### Query Parameters
+
+<ParamField query="from_date" type="string">
+  Return signals on or after this date. ISO 8601 format.
+</ParamField>
+
+<ParamField query="type" type="string">
+  Filter by signal type. Accepted values: `new_founder` (experienced operator starts new company), `stealth` (person enters stealth mode), `new_hire` (executive-level hire at a tracked company), `yc_founder` (YC alumni starts or joins new venture).
+</ParamField>
+
+<ParamField query="company_id" type="string">
+  Filter signals associated with a specific company by Specter company ID.
+</ParamField>
+
+<ParamField query="person_id" type="string">
+  Filter signals associated with a specific individual by Specter person ID.
+</ParamField>
+
+<ParamField query="limit" type="integer">
+  Number of signals to return. Defaults to `20`. Maximum is `100`.
+</ParamField>
+
+<ParamField query="offset" type="integer">
+  Number of records to skip for pagination. Defaults to `0`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://app.tryspecter.com/api/v1/signals/talent?type=new_founder&from_date=2024-01-01&limit=2" \
+  --header "X-API-Key: YOUR_API_KEY"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sig_tal_11c5ey8f2g4h7j3k",
+      "person_id": "per_02j7mn4q9p1x6y5z",
+      "person_name": "Sarah Chen",
+      "signal_type": "new_founder",
+      "signal_date": "2024-03-20",
+      "previous_company": "DataStream Inc.",
+      "new_company_or_role": "Founder & CEO at NovaSynth",
+      "highlights": ["Prior Exit", "VC-Backed Founder", "Top University"]
+    },
+    {
+      "id": "sig_tal_14f8hz1i5j7k9m4n",
+      "person_id": "per_09q4rs6t2u8v3w1x",
+      "person_name": "Marcus Webb",
+      "signal_type": "stealth",
+      "signal_date": "2024-02-28",
+      "previous_company": "Stripe",
+      "new_company_or_role": "Building in stealth",
+      "highlights": ["Serial Founder", "Prior Exit"]
+    }
+  ],
+  "total": 47,
+  "limit": 2,
+  "offset": 0
+}
+```
+
+### Response Fields
+
+<ResponseField name="data" type="array">
+  Array of talent signal records matching the query filters.
+  <Expandable title="talent signal item fields">
+    <ResponseField name="id" type="string">
+      Unique Specter signal ID.
+    </ResponseField>
+    <ResponseField name="person_id" type="string">
+      Specter person ID for the individual involved in this signal.
+    </ResponseField>
+    <ResponseField name="person_name" type="string">
+      Full name of the person the signal relates to.
+    </ResponseField>
+    <ResponseField name="signal_type" type="string">
+      The type of talent event. One of: `new_founder`, `stealth`, `new_hire`, or `yc_founder`.
+    </ResponseField>
+    <ResponseField name="signal_date" type="string">
+      ISO 8601 date the signal was detected or disclosed.
+    </ResponseField>
+    <ResponseField name="previous_company" type="string">
+      The company or role the individual moved from.
+    </ResponseField>
+    <ResponseField name="new_company_or_role" type="string">
+      Description of the individual's new company or role.
+    </ResponseField>
+    <ResponseField name="highlights" type="array">
+      Specter highlight labels from the individual's profile, such as `Prior Exit`, `Serial Founder`, or `Top University`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of talent signals matching the query, before pagination is applied.
+</ResponseField>
+
+<ResponseField name="limit" type="integer">
+  The `limit` value applied to this response.
+</ResponseField>
+
+<ResponseField name="offset" type="integer">
+  The `offset` value applied to this response.
+</ResponseField>
+
+---
+
+## Investor Interest Signals
+
+**`GET /api/v1/signals/investor-interest`**
+
+Retrieve a feed of investor interest signals that indicate a company is receiving active attention from VCs, PE firms, or strategic acquirers — often ahead of a publicly announced round. These signals are derived from engagement patterns, meeting activity, and behavioral data.
+
+### Query Parameters
+
+<ParamField query="from_date" type="string">
+  Return signals on or after this date. ISO 8601 format.
+</ParamField>
+
+<ParamField query="investor_type" type="string">
+  Filter by investor category. Accepted values: `vc` (venture capital), `pe` (private equity), `ma` (M&A / strategic acquirers).
+</ParamField>
+
+<ParamField query="stage" type="string">
+  Filter by the predicted round stage the interest relates to, e.g. `series_a`, `series_b`.
+</ParamField>
+
+<ParamField query="company_id" type="string">
+  Filter signals to a specific company by Specter company ID.
+</ParamField>
+
+<ParamField query="limit" type="integer">
+  Number of signals to return. Defaults to `20`. Maximum is `100`.
+</ParamField>
+
+<ParamField query="offset" type="integer">
+  Number of records to skip for pagination. Defaults to `0`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://app.tryspecter.com/api/v1/signals/investor-interest?investor_type=vc&stage=series_b&from_date=2024-01-01&limit=2" \
+  --header "X-API-Key: YOUR_API_KEY"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "sig_inv_17g2jp4k8l6m1n5o",
+      "company_id": "cmp_01h9xk2r4n5t8v3w",
+      "company_name": "Acme AI",
+      "investor_name": "Meridian Ventures",
+      "investor_id": "inv_03k8pq5r7s2u9t4v",
+      "investor_type": "vc",
+      "engagement_count": 6,
+      "signal_date": "2024-02-20",
+      "predicted_round_type": "series_b",
+      "confidence_level": "high"
+    },
+    {
+      "id": "sig_inv_20h5kq7l1m9n4p2r",
+      "company_id": "cmp_08x5pv2s9r6n7q3m",
+      "company_name": "Forge Robotics",
+      "investor_name": "Ironbridge Ventures",
+      "investor_id": "inv_22m4kp6w8x1r3v9t",
+      "investor_type": "vc",
+      "engagement_count": 3,
+      "signal_date": "2024-01-15",
+      "predicted_round_type": "series_b",
+      "confidence_level": "medium"
+    }
+  ],
+  "total": 33,
+  "limit": 2,
+  "offset": 0
+}
+```
+
+### Response Fields
+
+<ResponseField name="data" type="array">
+  Array of investor interest signal records matching the query filters.
+  <Expandable title="investor interest signal item fields">
+    <ResponseField name="id" type="string">
+      Unique Specter signal ID.
+    </ResponseField>
+    <ResponseField name="company_id" type="string">
+      Specter ID of the company receiving investor attention.
+    </ResponseField>
+    <ResponseField name="company_name" type="string">
+      Name of the company the signal pertains to.
+    </ResponseField>
+    <ResponseField name="investor_name" type="string">
+      Name of the investor showing interest.
+    </ResponseField>
+    <ResponseField name="investor_id" type="string">
+      Specter investor ID. Use this to retrieve the full investor profile.
+    </ResponseField>
+    <ResponseField name="investor_type" type="string">
+      Category of the investor. One of: `vc`, `pe`, or `ma`.
+    </ResponseField>
+    <ResponseField name="engagement_count" type="integer">
+      Number of distinct engagement events detected between this investor and company within the signal window.
+    </ResponseField>
+    <ResponseField name="signal_date" type="string">
+      ISO 8601 date the interest signal was first detected.
+    </ResponseField>
+    <ResponseField name="predicted_round_type" type="string">
+      Specter's prediction for the most likely upcoming round type based on the signal pattern, e.g. `series_a`, `series_b`.
+    </ResponseField>
+    <ResponseField name="confidence_level" type="string">
+      Confidence in the investor interest signal. One of: `high`, `medium`, or `low`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of investor interest signals matching the query, before pagination is applied.
+</ResponseField>
+
+<ResponseField name="limit" type="integer">
+  The `limit` value applied to this response.
+</ResponseField>
+
+<ResponseField name="offset" type="integer">
+  The `offset` value applied to this response.
+</ResponseField>
+
+## Error Codes
+
+| Status | Meaning |
+|--------|---------|
+| `200` | Success — signals returned |
+| `401` | Missing or invalid API key |
+| `403` | Your plan does not include access to this endpoint |
+| `404` | No signals found matching the specified filters |
+| `429` | Rate limit exceeded — slow down your request cadence |

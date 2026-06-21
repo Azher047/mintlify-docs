@@ -1,0 +1,150 @@
+---
+title: "Specter Changelog: New Features, Data Updates & Releases"
+sidebarTitle: "Changelog"
+description: "Track the latest Specter releases — new features, data coverage expansions, API updates, and integrations shipped across the platform and API."
+---
+
+This page tracks everything new in Specter — from major feature launches to incremental improvements across the web app, API, Chrome extension, and integrations. We ship continuously, so check back regularly. If you have feedback on any release or want to request a feature, reach out to us at [azher@tryspecter.com](mailto:azher@tryspecter.com).
+
+---
+
+## June 2025
+
+### Specter MCP
+
+<Note>
+  **New** — Specter MCP is currently in limited access. Request access at [tryspecter.com/contact](https://tryspecter.com/contact).
+</Note>
+
+Specter MCP brings the full power of Specter's private markets database into your AI workflows. Using the [Model Context Protocol](https://modelcontextprotocol.io), you can now query Specter data directly from Claude, Cursor, OpenAI, and any other MCP-compatible AI agent or environment — no custom API integration needed.
+
+<Steps>
+  <Step title="18 job-oriented tools for private markets intelligence">
+    Specter MCP ships with 18 tools covering the core jobs investors and analysts need to get done: finding companies by criteria, looking up founders and executives, retrieving revenue and investor signals, managing watchlists, and more. Each tool is designed around a specific task so AI agents can chain them naturally in multi-step workflows.
+  </Step>
+  <Step title="Works with the AI tools you already use">
+    Connect Specter MCP to Claude Desktop, Cursor, or any MCP-compatible host in minutes. Once connected, you can ask natural-language questions like "Find B2B SaaS companies in Southeast Asia with recent investor interest signals and fewer than 100 employees" and get structured Specter data back instantly.
+  </Step>
+  <Step title="Limited access — request now">
+    Specter MCP is available to a limited set of early access customers. Visit [tryspecter.com/contact](https://tryspecter.com/contact) and mention MCP in your message to get on the list.
+  </Step>
+</Steps>
+
+---
+
+## April 2025
+
+### Revenue & Valuation Estimates
+
+<Note>
+  **New** — Available across all company profiles in the Specter web app and via the API.
+</Note>
+
+Specter now models monthly revenue and valuation estimates for every company in its database — not just those with publicly disclosed figures. These estimates give you a directional read on a company's scale and trajectory before you ever get on a call.
+
+<Steps>
+  <Step title="Modeled estimates for every company">
+    Using a combination of AI models trained on thousands of verified revenue disclosures, Specter generates revenue and valuation estimates for companies at all stages — from early-stage startups to late-stage growth companies. Estimates are available on every company profile and accessible via the API.
+  </Step>
+  <Step title="Confidence bands anchored to verified disclosures">
+    Every estimate includes a confidence band so you can see how tight or wide the model's range is. Where verified revenue figures exist — from filings, press releases, founder interviews, or other primary sources — the model anchors tightly to those disclosures, giving you higher-confidence estimates on companies with more public data.
+  </Step>
+  <Step title="Estimates update as new signals arrive">
+    Revenue estimates are not static. As Specter's signal engine ingests new revenue mentions, profitability indicators, or growth data points, estimates refresh automatically. This means the revenue figure you see today reflects the most current available evidence.
+  </Step>
+</Steps>
+
+<Tip>
+  Use Revenue Estimates alongside Specter's investor interest signals to identify companies that are scaling quickly but haven't yet announced a funding round — a strong early indicator of upcoming deal activity.
+</Tip>
+
+---
+
+## February 2025
+
+### Real-Time Revenue Signals
+
+Specter's revenue signal feed is now live, delivering 500+ new revenue and profitability signals every day across the companies in Specter's database. This gives you a continuously refreshing view of how private companies are growing — sourced, verified, and surfaced without any manual research on your part.
+
+<Steps>
+  <Step title="500+ revenue signals per day">
+    Specter ingests and processes revenue mentions, ARR disclosures, growth rate statements, profitability signals, and related financial indicators across 60,000+ media sources every day. Only verified signals make it into the feed.
+  </Step>
+  <Step title="Broad source coverage">
+    Signals are sourced from X/Twitter, LinkedIn posts, news articles, podcasts and video transcripts, press releases, company blog posts, regulatory filings, and Specter's proprietary data partnerships. No single source dominates — Specter triangulates across all of them.
+  </Step>
+  <Step title="AI + human verification">
+    Every signal passes through Specter's AI verification pipeline, which classifies, validates, and contextualizes the data point before publishing it. Human reviewers handle edge cases and high-stakes signals to ensure accuracy.
+  </Step>
+  <Step title="Embedded in company profiles and search">
+    The revenue signal feed is integrated directly into company profiles — you'll see a chronological log of revenue signals alongside the company's profile data. Revenue signals also appear in search results and list views, so you can surface high-growth companies without having to open each profile individually.
+  </Step>
+</Steps>
+
+---
+
+## December 2024
+
+### Investor Interest Signals
+
+Specter now surfaces investor interest signals — early indicators of VC, PE, and M&A engagement with private companies — before any deal is announced publicly.
+
+<Steps>
+  <Step title="Track engagement before deals are announced">
+    Specter detects patterns of investor activity — including repeated engagement between specific investors and founders — that historically precede funding announcements and M&A events. This gives you a meaningful head start on identifying which companies are likely to raise or transact soon.
+  </Step>
+  <Step title="Partner-level engagement tracking">
+    Interest signals operate at the individual level, not just the firm level. Specter tracks engagement between named partners and investors at VC and PE firms and the founders and C-suite executives of portfolio targets — giving you a granular view of who is paying attention to whom.
+  </Step>
+  <Step title="Predict funding rounds and M&A events">
+    Companies with elevated interest signal scores are statistically more likely to announce a funding round or M&A event in the following 90 days. Use the Interest Signal filter in Specter search to build a pipeline of companies that are likely to be in-market soon.
+  </Step>
+</Steps>
+
+<Tip>
+  Combine investor interest signals with Specter's talent movement filters to find companies where multiple Tier 1 investors are paying attention AND a key hire (e.g., CFO or VP Sales) has recently joined — often a strong pre-announcement signal.
+</Tip>
+
+---
+
+## October 2024
+
+### Network Tracking
+
+Specter Network Tracking lets you map your team's professional relationships across your target universe — so you always know who on your team knows who at the companies you care about.
+
+<Steps>
+  <Step title="Connect LinkedIn, Gmail, and calendar">
+    Link your professional accounts to Specter to allow it to map your team's existing network. Specter analyzes connection graphs, email history, and meeting history to understand the strength and recency of relationships — without reading the content of your communications.
+  </Step>
+  <Step title="See who knows who at target companies">
+    When you view a company profile or build a list, Specter now shows you which members of your team have a warm relationship with founders, executives, or board members at that company. This makes it easy to identify the right person to make the introduction rather than reaching out cold.
+  </Step>
+  <Step title="Real-time alerts on contact activity">
+    Specter monitors your tracked contacts for key events and sends you real-time alerts when someone in your network changes roles, joins a new company, or launches a startup. This keeps your deal sourcing pipeline warm without any manual monitoring.
+  </Step>
+</Steps>
+
+---
+
+## September 2024
+
+### Chrome Extension v2
+
+The Specter Chrome Extension has been rebuilt from the ground up. Version 2 is faster, more reliable, and significantly more useful when you're browsing LinkedIn or doing research on the web.
+
+<Steps>
+  <Step title="Enriched Specter data on LinkedIn profiles and company pages">
+    When you visit a LinkedIn profile or company page, the Specter extension now surfaces a full enriched sidebar — including funding history, revenue signals, investor relationships, and key data points from Specter's 250+ field database. You get the full picture without leaving the page you're on.
+  </Step>
+  <Step title="Push to CRM and add to lists from the extension">
+    You can now push any company or person to your connected CRM (Attio, Affinity, or Salesforce) and add them to any of your Specter lists directly from the extension overlay — no need to open the Specter web app. This significantly speeds up prospecting and list-building workflows.
+  </Step>
+  <Step title="Improved performance and reliability">
+    Extension v2 loads faster, handles more complex LinkedIn pages without breaking, and uses significantly less memory than v1. If you experienced slowdowns or display issues with the previous version, v2 should resolve them.
+  </Step>
+</Steps>
+
+<Note>
+  The Chrome Extension is included with all Specter subscriptions at no additional cost. Install it from the Chrome Web Store by searching for "Specter."
+</Note>

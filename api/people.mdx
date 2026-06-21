@@ -1,0 +1,220 @@
+---
+title: "People API: Access 50M+ Executive & Founder Profiles"
+sidebarTitle: "People"
+description: "Retrieve structured profiles for founders, executives, and investors including career history, education, highlights, angel activity, and recent news mentions."
+---
+
+The People API surfaces structured intelligence on individuals across the private markets ecosystem — founders, operators, investors, and emerging talent. Each profile includes career history, education, proprietary highlight labels, investment activity, and curated news mentions, giving you the context to evaluate people at scale.
+
+## Get a Person Profile
+
+**`GET /api/v1/people/{personId}`**
+
+Retrieve the full enriched profile for a single person by their Specter ID. The response includes all available structured data for that individual.
+
+### Path Parameters
+
+<ParamField path="personId" type="string" required>
+  The unique Specter ID for the person. You can obtain this from a search result or from the `team` array on a company profile.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://app.tryspecter.com/api/v1/people/per_02j7mn4q9p1x6y5z" \
+  --header "X-API-Key: YOUR_API_KEY"
+```
+
+### Example Response
+
+```json
+{
+  "id": "per_02j7mn4q9p1x6y5z",
+  "full_name": "Sarah Chen",
+  "title": "Co-Founder & CEO",
+  "current_company_name": "Acme AI",
+  "current_company_id": "cmp_01h9xk2r4n5t8v3w",
+  "highlights": ["Prior Exit", "Serial Founder", "VC-Backed Founder", "Top University"],
+  "career_history": [
+    {
+      "company_name": "Acme AI",
+      "title": "Co-Founder & CEO",
+      "start_date": "2021-06-01",
+      "end_date": null,
+      "is_current": true
+    },
+    {
+      "company_name": "DataStream Inc.",
+      "title": "VP of Engineering",
+      "start_date": "2018-03-01",
+      "end_date": "2021-05-31",
+      "is_current": false
+    },
+    {
+      "company_name": "Nexus Labs",
+      "title": "Senior Software Engineer",
+      "start_date": "2015-07-01",
+      "end_date": "2018-02-28",
+      "is_current": false
+    }
+  ],
+  "education": [
+    {
+      "institution": "Massachusetts Institute of Technology",
+      "degree": "M.S.",
+      "field": "Computer Science",
+      "graduation_year": 2015
+    },
+    {
+      "institution": "University of California, Berkeley",
+      "degree": "B.S.",
+      "field": "Electrical Engineering and Computer Sciences",
+      "graduation_year": 2013
+    }
+  ],
+  "social_links": {
+    "linkedin_url": "https://linkedin.com/in/sarahchen",
+    "twitter_url": "https://twitter.com/sarahchen",
+    "github_url": "https://github.com/sarahchen"
+  },
+  "investment_activity": {
+    "angel_deals": 7,
+    "lp_positions": 2
+  },
+  "news": [
+    {
+      "date": "2024-04-10",
+      "title": "Acme AI raises $50M Series B to expand enterprise ML infrastructure",
+      "url": "https://techcrunch.com/2024/04/10/acme-ai-series-b",
+      "publisher": "TechCrunch"
+    },
+    {
+      "date": "2023-11-02",
+      "title": "Sarah Chen named to Forbes 30 Under 30 in Enterprise Tech",
+      "url": "https://forbes.com/30-under-30/2024/sarah-chen",
+      "publisher": "Forbes"
+    }
+  ]
+}
+```
+
+### Response Fields
+
+<ResponseField name="id" type="string">
+  Specter's unique identifier for this person. Use this when referencing individuals across endpoints such as signals or search.
+</ResponseField>
+
+<ResponseField name="full_name" type="string">
+  The person's full name as it appears across professional profiles.
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Current job title at their primary active company.
+</ResponseField>
+
+<ResponseField name="current_company_name" type="string">
+  Name of the company where the person is currently employed or most active.
+</ResponseField>
+
+<ResponseField name="current_company_id" type="string">
+  Specter company ID for the current employer. Use this to retrieve the full company profile via the Companies API.
+</ResponseField>
+
+<ResponseField name="highlights" type="array">
+  Specter-assigned signal labels that flag notable background attributes. Possible values include `Prior Exit`, `Serial Founder`, `VC-Backed Founder`, and `Top University`.
+</ResponseField>
+
+<ResponseField name="career_history" type="array">
+  Chronological work history for the individual.
+  <Expandable title="career_history item fields">
+    <ResponseField name="company_name" type="string">
+      Name of the employer.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Job title held at that company.
+    </ResponseField>
+    <ResponseField name="start_date" type="string">
+      ISO 8601 date the role began.
+    </ResponseField>
+    <ResponseField name="end_date" type="string">
+      ISO 8601 date the role ended. `null` if currently active.
+    </ResponseField>
+    <ResponseField name="is_current" type="boolean">
+      `true` if this is the person's current active role.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="education" type="array">
+  Academic background for the individual.
+  <Expandable title="education item fields">
+    <ResponseField name="institution" type="string">
+      Name of the university or educational institution.
+    </ResponseField>
+    <ResponseField name="degree" type="string">
+      Degree level, e.g. `B.S.`, `M.S.`, `Ph.D.`, `MBA`.
+    </ResponseField>
+    <ResponseField name="field" type="string">
+      Field or major of study.
+    </ResponseField>
+    <ResponseField name="graduation_year" type="integer">
+      Year of graduation.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="social_links" type="object">
+  Known social and professional profile URLs.
+  <Expandable title="social_links fields">
+    <ResponseField name="linkedin_url" type="string">
+      Full URL to the person's LinkedIn profile.
+    </ResponseField>
+    <ResponseField name="twitter_url" type="string">
+      Full URL to the person's Twitter/X profile.
+    </ResponseField>
+    <ResponseField name="github_url" type="string">
+      Full URL to the person's GitHub profile, where available.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="investment_activity" type="object">
+  Summary of the person's activity as an investor.
+  <Expandable title="investment_activity fields">
+    <ResponseField name="angel_deals" type="integer">
+      Number of angel investments attributed to this individual.
+    </ResponseField>
+    <ResponseField name="lp_positions" type="integer">
+      Number of known LP positions in venture funds.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="news" type="array">
+  Curated recent news mentions for the individual.
+  <Expandable title="news item fields">
+    <ResponseField name="date" type="string">
+      ISO 8601 publication date.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Headline of the article.
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      Direct URL to the article.
+    </ResponseField>
+    <ResponseField name="publisher" type="string">
+      Name of the publishing outlet.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Error Codes
+
+| Status | Meaning |
+|--------|---------|
+| `200` | Success — person profile returned |
+| `401` | Missing or invalid API key |
+| `403` | Your plan does not include access to this endpoint |
+| `404` | No person found for the provided ID |
+| `429` | Rate limit exceeded — slow down your request cadence |

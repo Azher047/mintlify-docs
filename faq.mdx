@@ -1,0 +1,223 @@
+---
+title: "Specter FAQ: Private Markets Data, API & Platform Questions"
+sidebarTitle: "FAQ"
+description: "Answers to common questions about Specter's data coverage, API, integrations, pricing, and troubleshooting to help you get started quickly."
+---
+
+Whether you're evaluating Specter for the first time or looking to get more out of your existing subscription, this page covers the questions our customers ask most often. If you don't find what you need here, reach out to us at [azher@tryspecter.com](mailto:azher@tryspecter.com) and we'll get back to you promptly.
+
+## General
+
+<AccordionGroup>
+  <Accordion title="What is Specter and who is it for?">
+    Specter is an AI-powered private markets intelligence platform that gives you deep, continuously updated data on 55M+ companies, 550M+ people, 330K+ investors, and 1M+ transactions — all in one place.
+
+    Specter is built for teams that need an edge in private markets, including:
+
+    - **Venture capital firms** sourcing early-stage deals and tracking emerging founders
+    - **Private equity funds** running market maps and monitoring portfolio companies
+    - **Corporate venture arms** identifying strategic acquisition and partnership targets
+    - **Data and research teams** enriching internal databases or powering proprietary workflows
+
+    Trusted by 300+ investment firms — including Bessemer Venture Partners, Peak XV, Index Ventures, and Felicis — Specter is the intelligence layer serious investors rely on to find opportunities before they become public knowledge.
+  </Accordion>
+
+  <Accordion title="How is Specter different from Crunchbase, Harmonic, or Apollo?">
+    Specter is built specifically for private markets intelligence, not just contact data or fundraising history. Here's what sets it apart:
+
+    - **6x more company coverage** — Specter tracks 55M+ companies, including stealth startups, bootstrapped businesses, and pre-announcement entities that don't appear in other databases
+    - **Real-time revenue signals** — proprietary revenue and profitability signals updated daily, sourced from 60,000+ media outlets, financial filings, podcasts, and social media
+    - **Revenue & Valuation Estimates** — AI-modeled revenue and valuation figures for every company, anchored to verified disclosures with confidence bands
+    - **Exclusive deal signals** — track investor interest, partner-level engagement, and talent movements before deals are announced
+    - **250+ data points per company** — far beyond the basics of funding rounds and headcount
+
+    While tools like Crunchbase focus on announced funding data and Apollo on go-to-market contact enrichment, Specter is purpose-built to help investors find, evaluate, and act on private market opportunities faster.
+  </Accordion>
+
+  <Accordion title="How current is the data?">
+    Specter's database is continuously updated. Different data types refresh on different cadences:
+
+    - **Revenue Signals** — 500+ new signals ingested and verified every day in real time
+    - **People & talent data** — updated as job changes, promotions, and new company launches are detected
+    - **Funding & transaction data** — refreshed as announcements are published across 60,000+ media sources
+    - **Company profiles** — core firmographic data reviewed and updated on an ongoing basis
+
+    <Note>
+      If you notice data that appears stale or incorrect on a specific company, you can flag it directly in the app or contact [azher@tryspecter.com](mailto:azher@tryspecter.com) for a manual review.
+    </Note>
+  </Accordion>
+
+  <Accordion title="How do I get access to Specter?">
+    You can request access by booking a demo at [tryspecter.com/contact](https://tryspecter.com/contact). A member of our team will walk you through the platform, understand your use case, and recommend the right plan for your team.
+
+    <Tip>
+      If you're exploring the API or Specter MCP specifically, mention that when you fill out the contact form — we'll make sure to include a technical walkthrough in your demo.
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+## Data
+
+<AccordionGroup>
+  <Accordion title="What data points does Specter have on companies?">
+    Specter provides 250+ data points per company, spanning:
+
+    - **Firmographics** — industry, sub-sector, founding date, HQ location, employee count, and growth trajectory
+    - **Financials** — funding rounds, valuations, revenue estimates, and modeled profitability signals
+    - **People** — founders, executives, board members, investors, and key hires with contact details
+    - **Signals** — investor interest signals, talent movement signals, revenue signals, and partnership activity
+    - **Investors** — associated VC, PE, and angel investors, with round-by-round participation history
+    - **Transactions** — acquisitions, mergers, and strategic investments
+
+    This breadth means you can build highly specific search queries — for example, finding B2B SaaS companies in Southeast Asia with $2M–$10M estimated ARR, fewer than 50 employees, and recent interest from Tier 1 VCs.
+  </Accordion>
+
+  <Accordion title="How does Specter source its data?">
+    Specter aggregates data from a combination of public, private, and proprietary sources, then applies AI processing and human verification to ensure accuracy:
+
+    - **60,000+ media outlets** — news articles, press releases, and trade publications
+    - **Social media** — X/Twitter, LinkedIn, and other professional networks
+    - **Financial filings and regulatory databases** — disclosed funding, revenue, and corporate structure data
+    - **Podcasts and video content** — AI-transcribed interviews and founder discussions
+    - **Proprietary signals** — Specter's own network and data partnerships
+
+    Every data point passes through Specter's AI verification pipeline, with human review applied to high-impact or ambiguous signals. This layered approach gives you data you can act on with confidence.
+  </Accordion>
+
+  <Accordion title="Can I find stealth companies on Specter?">
+    Yes. Specter is one of the few platforms that surfaces stealth and pre-public companies through talent signals. When a founder, serial entrepreneur, or senior executive leaves a high-growth company or unicorn and goes dark on LinkedIn, Specter's signal engine picks up on those movements and flags them as potential stealth activity.
+
+    This means you can identify promising founders before they announce their next company — often months before they appear on any other platform.
+
+    <Tip>
+      Use Specter's talent signal filters to track departures from specific companies (e.g., ex-Stripe, ex-Revolut) or role types (e.g., CTO or Head of Product) to build a pipeline of pre-stealth founders.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="How accurate is the revenue data?">
+    Specter's revenue estimates are generated using AI models trained on thousands of verified revenue disclosures, then anchored to any publicly available or disclosed figures for each company. Each estimate includes a confidence band so you can calibrate how much weight to place on it.
+
+    Key things to know:
+
+    - Estimates are updated continuously as new signals arrive (e.g., a founder mentions ARR in a podcast, or a press release cites growth figures)
+    - Human reviewers verify high-confidence signals before they are published
+    - Where verified disclosures exist, the model anchors tightly to those figures
+
+    <Note>
+      Revenue estimates are models, not audited financials. Use them as a directional signal for prioritization and market mapping, and corroborate with primary diligence for investment decisions.
+    </Note>
+  </Accordion>
+</AccordionGroup>
+
+## API & Integrations
+
+<AccordionGroup>
+  <Accordion title="How do I get an API key?">
+    Once you have a Specter subscription, you can generate an API key directly from your account dashboard:
+
+    1. Log in at [app.tryspecter.com](https://app.tryspecter.com)
+    2. Navigate to **Settings → API**
+    3. Click **Generate API Key** and copy your key
+
+    Use your key by passing it in the `X-API-Key` header with every request to the Specter API base URL: `https://app.tryspecter.com/api/v1`.
+
+    <Note>
+      Keep your API key secure. Do not expose it in client-side code or public repositories. If your key is compromised, you can revoke and regenerate it from the same settings page.
+    </Note>
+  </Accordion>
+
+  <Accordion title="What CRMs does Specter integrate with?">
+    Specter currently integrates natively with the following CRMs:
+
+    <CardGroup cols={3}>
+      <Card title="Attio" icon="database">
+        Sync companies, people, and signals directly into your Attio workspace.
+      </Card>
+      <Card title="Affinity" icon="users">
+        Push Specter data into Affinity lists and relationship timelines.
+      </Card>
+      <Card title="Salesforce" icon="cloud">
+        Enrich Salesforce records with Specter's 250+ company and people data points.
+      </Card>
+    </CardGroup>
+
+    You can also connect to any CRM or internal tool via the REST API. If your team uses a CRM not listed here, contact [azher@tryspecter.com](mailto:azher@tryspecter.com) to discuss your requirements.
+  </Accordion>
+
+  <Accordion title="Is the Chrome extension free?">
+    The Specter Chrome extension is included with your Specter subscription at no additional cost. It overlays enriched Specter data — including funding history, revenue signals, and investor connections — directly onto LinkedIn profiles and company pages as you browse.
+
+    From the extension, you can:
+
+    - View a full Specter profile without leaving LinkedIn
+    - Push companies or people to your CRM with one click
+    - Add records to your Specter lists for tracking and monitoring
+
+    If you're an existing subscriber and haven't installed the extension yet, you can find it in the Chrome Web Store by searching for "Specter."
+  </Accordion>
+
+  <Accordion title="What is Specter MCP and how do I access it?">
+    Specter MCP (Model Context Protocol) is Specter's integration layer for AI agents and large language models. It lets you query Specter's entire database directly from Claude, Cursor, OpenAI, and any other MCP-compatible AI environment.
+
+    With Specter MCP, you get access to **18 job-oriented tools** covering:
+
+    - Company search and profile lookup
+    - People and founder discovery
+    - Signal retrieval (revenue, investor interest, talent)
+    - List management and watchlist operations
+
+    Specter MCP is currently in limited access. To request access, visit [tryspecter.com/contact](https://tryspecter.com/contact) and mention MCP in your message.
+
+    <Tip>
+      Specter MCP is especially powerful for analysts and data teams who want to run natural-language queries against private markets data inside their existing AI workflows — no custom API integration required.
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+## Billing & Plans
+
+<AccordionGroup>
+  <Accordion title="What plans does Specter offer?">
+    Specter offers plans tailored to different team sizes and use cases — from solo investors to large multi-seat fund operations. Pricing is customized based on your team's needs, including the number of seats, API access volume, CRM integrations, and data export requirements.
+
+    To get a quote or compare plan options, visit [tryspecter.com/contact](https://tryspecter.com/contact) and our team will put together a proposal for you.
+  </Accordion>
+
+  <Accordion title="Is there a free trial?">
+    Specter does not offer a self-serve free trial, but we encourage you to book a demo at [tryspecter.com/contact](https://tryspecter.com/contact). During the demo, you'll get a live walkthrough of the platform using data relevant to your investment focus, so you can evaluate fit before committing.
+
+    Our team is happy to discuss trial arrangements and proof-of-concept options depending on your team's requirements.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="I'm getting a 401 error on the API — what should I do?">
+    A `401 Unauthorized` error means the API could not authenticate your request. Here's how to resolve it:
+
+    1. **Check the header name** — Make sure you're using `X-API-Key` (not `Authorization` or `Bearer`). Example:
+       ```http
+       GET https://app.tryspecter.com/api/v1/companies
+       X-API-Key: your_api_key_here
+       ```
+    2. **Confirm the key is active** — Log in to [app.tryspecter.com](https://app.tryspecter.com), go to **Settings → API**, and verify your key is listed and not revoked.
+    3. **Check for whitespace** — Copy-paste errors can introduce invisible spaces before or after the key. Make sure the value is trimmed.
+    4. **Confirm your subscription is active** — API access requires an active Specter subscription. If your account has lapsed, contact [azher@tryspecter.com](mailto:azher@tryspecter.com).
+
+    If you've checked all of the above and are still seeing 401 errors, reach out to [azher@tryspecter.com](mailto:azher@tryspecter.com) with your API key prefix (first 6 characters) and we'll investigate.
+  </Accordion>
+
+  <Accordion title="My data looks outdated — how do I refresh it?">
+    Specter's data refreshes automatically in the background — there is no manual "sync" button required. If you're seeing data that looks stale, here are a few things to check:
+
+    - **Hard refresh your browser** — Press `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (Mac) to bypass any cached views in the web app.
+    - **Check the data timestamp** — Each company profile shows a "last updated" indicator. If it's more than a few days old for a high-activity company, that's worth flagging.
+    - **Use the "Flag Data" option** — In any company profile, you can flag specific fields as potentially outdated. Our team reviews flagged entries on a rolling basis.
+    - **Contact support** — If the issue persists or affects multiple records, email [azher@tryspecter.com](mailto:azher@tryspecter.com) with the company name(s) and the field(s) in question.
+
+    <Note>
+      Some data points — particularly for very early-stage or stealth companies — may update less frequently due to limited public signal availability. This is expected behavior.
+    </Note>
+  </Accordion>
+</AccordionGroup>

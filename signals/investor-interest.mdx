@@ -1,0 +1,144 @@
+---
+title: "Investor Interest Signals: Spot Deals Before Announcements"
+sidebarTitle: "Investor Interest"
+description: "Track VC, PE, and M&A interest based on partner engagements with founders and C-suite — surface deal intent weeks before public announcements."
+---
+
+Investor Interest Signals detect when venture capital, private equity, and strategic acquirers begin engaging with founders and C-suite executives — before any deal is announced, term sheet is signed, or press release is drafted. Specter's proprietary model tracks the pattern and intensity of these engagements to surface early-stage deal intent signals across VC, PE, and M&A activity. When an Investor Interest signal fires, it means a relationship between an investor and a company is heating up, giving you a window to act while most of the market is still unaware.
+
+## Signal Types
+
+Investor Interest Signals are segmented by the type of capital involved, so you can filter your feed to match your competitive intelligence needs.
+
+<CardGroup cols={2}>
+  <Card title="VC Interest" icon="seedling">
+    Surfaces when venture capital partners increase engagement with founders and leadership teams. Signals often precede seed, Series A, and growth rounds by several weeks.
+  </Card>
+  <Card title="PE Interest" icon="building-columns">
+    Tracks private equity firm activity around portfolio targets, including management meetings and due diligence-phase engagements with C-suite executives.
+  </Card>
+  <Card title="M&A Interest" icon="arrows-merge">
+    Detects strategic and financial acquirer activity. Signals fire when corporate development teams or PE-backed acquirers begin engaging with company leadership.
+  </Card>
+</CardGroup>
+
+## Example Signals
+
+The following examples illustrate the types of signals you will see in an Investor Interest feed. Each signal includes the investor, the target company, and Specter's predicted round or deal type.
+
+| Signal | Investor | Company | Predicted Round | Confidence |
+|---|---|---|---|---|
+| General Catalyst is interested in Glean | General Catalyst | Glean | Series C | High |
+| Sequoia Capital likely to lead Series A in Rillet | Sequoia Capital | Rillet | Series A | High |
+| Andreessen Horowitz exploring investment in Orion AI | a16z | Orion AI | Seed / Series A | Medium |
+| Thoma Bravo in early conversations with Causal | Thoma Bravo | Causal | PE Growth | Medium |
+| Salesforce Ventures showing M&A interest in Draftbit | Salesforce Ventures | Draftbit | Acquisition | High |
+
+<Note>
+  Investor Interest Signals reflect detected engagement patterns and are not confirmation of a deal or signed term sheet. Use them as early-stage intelligence to inform outreach and sourcing — not as a guarantee of investment activity.
+</Note>
+
+## Why These Signals Matter
+
+<Steps>
+  <Step title="Signals fire before announcements">
+    The average gap between an Investor Interest signal and the corresponding public funding announcement is several weeks. That window is your opportunity to engage founders, update your model, or adjust your competitive positioning.
+  </Step>
+  <Step title="Prioritize your outreach">
+    Use Investor Interest Signals to identify which companies on your watchlist are attracting the most activity from top-tier investors. If a company you've been tracking is suddenly seeing VC interest from multiple firms, that's a strong signal to accelerate your own process.
+  </Step>
+  <Step title="Track competitive deal flow">
+    Monitor which investors are most active in your target sectors or geographies. Investor Interest Signals give you a live view of where your competitors are deploying attention and capital.
+  </Step>
+</Steps>
+
+<Tip>
+  Combine Investor Interest Signals with Revenue Signals and Talent Signals on the same company to build a comprehensive picture of a target before making contact. A company with rising ARR, a new C-suite hire, and growing VC engagement is a very different opportunity than one with only one of those signals.
+</Tip>
+
+## API Reference
+
+Query Investor Interest Signals programmatically to integrate deal-flow intelligence into your CRM, pipeline tracking tools, or internal dashboards.
+
+### Endpoint
+
+```
+GET /api/v1/signals/investor-interest
+```
+
+### Query Parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `investor_type` | `string` | Type of investor: `vc`, `pe`, `ma` (M&A / strategic). |
+| `stage` | `string` | Predicted round stage: `seed`, `series_a`, `series_b`, `growth`, `acquisition`. |
+| `from_date` | `string` | ISO 8601 date. Returns signals on or after this date. |
+| `to_date` | `string` | ISO 8601 date. Returns signals on or before this date. |
+| `confidence_level` | `string` | Minimum confidence threshold: `medium` or `high`. |
+| `investor_name` | `string` | Filter to signals from a specific investor firm by name. |
+| `limit` | `integer` | Maximum number of results (default: `50`, max: `500`). |
+
+### Example Request
+
+```bash
+curl -X GET "https://app.tryspecter.com/api/v1/signals/investor-interest?investor_type=vc&stage=series_a" \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "company_id": "cmp_f4a82c10",
+      "company_name": "Rillet",
+      "investor_name": "Sequoia Capital",
+      "investor_type": "vc",
+      "engagement_count": 7,
+      "signal_date": "2025-01-16",
+      "predicted_round_type": "series_a",
+      "confidence_level": "high"
+    },
+    {
+      "company_id": "cmp_9b3d5e27",
+      "company_name": "Glean",
+      "investor_name": "General Catalyst",
+      "investor_type": "vc",
+      "engagement_count": 5,
+      "signal_date": "2025-01-13",
+      "predicted_round_type": "series_c",
+      "confidence_level": "high"
+    },
+    {
+      "company_id": "cmp_11cc7f94",
+      "company_name": "Orion AI",
+      "investor_name": "Andreessen Horowitz",
+      "investor_type": "vc",
+      "engagement_count": 3,
+      "signal_date": "2025-01-10",
+      "predicted_round_type": "seed",
+      "confidence_level": "medium"
+    }
+  ],
+  "meta": {
+    "total": 3,
+    "page": 1,
+    "limit": 50
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `company_id` | `string` | Specter's unique identifier for the target company. |
+| `company_name` | `string` | Target company display name. |
+| `investor_name` | `string` | Name of the investor firm showing interest. |
+| `investor_type` | `string` | Classification of the investor: `vc`, `pe`, or `ma`. |
+| `engagement_count` | `integer` | Number of tracked engagement events between the investor and company leadership. |
+| `signal_date` | `string` | ISO 8601 date the signal was surfaced. |
+| `predicted_round_type` | `string` | Specter's predicted deal type: `seed`, `series_a`, `series_b`, `growth`, `pe_growth`, or `acquisition`. |
+| `confidence_level` | `string` | Signal confidence based on engagement intensity and pattern: `medium` or `high`. |

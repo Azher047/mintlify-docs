@@ -1,0 +1,107 @@
+---
+title: "Signals: Real-Time Private Market Intelligence"
+sidebarTitle: "Overview"
+description: "Subscribe to Specter's real-time signal feeds to surface critical company, talent, and investor events before the broader market does."
+---
+
+Signals are Specter's real-time intelligence feeds — structured alerts that surface critical events across private companies, founders, and investors as they happen. Instead of manually monitoring thousands of sources, you subscribe to signal feeds and let Specter deliver pre-verified intelligence directly to your workflow. Every signal type is designed to give you a decisive timing advantage: you find out before the funding announcement, before the press release, and before the rest of the market catches up.
+
+## Signal Types
+
+<CardGroup cols={2}>
+  <Card title="Revenue Signals" icon="chart-line" href="/signals/revenue">
+    500+ signals per day sourced from news, social, podcasts, and filings. Covers ARR, revenue, and profitability disclosures — AI and human verified.
+  </Card>
+  <Card title="Talent Signals" icon="user-group" href="/signals/talent">
+    1,000+ signals per week tracking new founders, stealth hires, spinout founders, YC applicants, and key portfolio company hires.
+  </Card>
+  <Card title="Investor Interest Signals" icon="handshake" href="/signals/investor-interest">
+    VC, PE, and M&A interest signals based on partner engagements with founders and C-suite — surfaces deal intent before announcements.
+  </Card>
+  <Card title="News Signals" icon="newspaper" href="/signals/news">
+    Real-time news from 60,000+ verified sources, AI-summarized and linked directly to company and people profiles in Specter.
+  </Card>
+</CardGroup>
+
+## Signal Volumes at a Glance
+
+The table below summarizes what each signal type delivers and how frequently new signals are generated.
+
+| Signal Type | Volume | Source Types | Verification |
+|---|---|---|---|
+| Revenue Signals | 500+ per day | News, social, podcasts, filings | AI + human verified |
+| Talent Signals | 1,000+ per week | LinkedIn, company announcements, YC data | AI + human verified |
+| Investor Interest | Continuous | Partner engagement data, deal activity | Proprietary model |
+| News Signals | Real-time | 60,000+ verified outlets | AI-summarized & structured |
+| Revenue & Valuation Estimates | Monthly refresh | Modeled from verified disclosures | Confidence bands included |
+
+## How to Create a Saved Search
+
+Saved searches are the foundation of your signal workflow. When you save a search in Specter, it automatically updates with new signals as they arrive — no need to re-run queries manually.
+
+<Steps>
+  <Step title="Run a search">
+    Use the Specter search bar or Signals page to filter companies, people, or investors using any combination of filters such as industry, geography, revenue range, or signal type.
+  </Step>
+  <Step title="Save the search">
+    Click **Save Search** in the top-right of the results view. Give the search a descriptive name so you can identify it in your Signals dashboard.
+  </Step>
+  <Step title="Choose a visibility setting">
+    Select who can see this saved search. See the [Visibility Settings](#signal-visibility-settings) section below for details on each option.
+  </Step>
+  <Step title="Connect your delivery method">
+    Choose how you want to receive new signals from this saved search: via the Specter web app, the REST API, or a connected CRM integration.
+  </Step>
+</Steps>
+
+<Tip>
+  Saved searches update automatically. You don't need to re-run them — Specter continuously pushes new matching signals into your feed as they are verified and ingested.
+</Tip>
+
+## Signal Delivery Methods
+
+Once you have saved searches configured, you can receive signals through three channels depending on your workflow.
+
+<Tabs>
+  <Tab title="Web App">
+    Your Signals page in the Specter web app shows all active saved searches with a live count of new signals since your last visit. Each row in the Signals list displays:
+
+    - **Title** — The name you gave the saved search
+    - **Type** — Whether the search covers Companies, People, or Investors
+    - **New Signals** — Count of signals added since you last viewed this feed
+    - **Total** — Cumulative signal count across the lifetime of the saved search
+    - **Visibility** — Recommended, Shared, or Private
+
+    Click any saved search to drill into the individual signal events.
+  </Tab>
+  <Tab title="API">
+    Each signal type exposes a dedicated REST endpoint. Query any signal feed programmatically and integrate the results into your own tools or data pipelines.
+
+    ```bash
+    # Example: fetch the latest revenue signals
+    curl -X GET "https://app.tryspecter.com/api/v1/signals/revenue" \
+      -H "X-API-Key: YOUR_API_KEY"
+    ```
+
+    See the individual signal type pages for full endpoint documentation, supported query parameters, and example responses.
+  </Tab>
+  <Tab title="CRM Integration">
+    Connect Specter to your CRM to push signals directly into your deal or contact records. New signals automatically enrich existing records, so your team always works from current intelligence without switching context.
+
+    Navigate to **Settings → Integrations** to connect your CRM. Supported CRMs include Salesforce, HubSpot, and Affinity.
+  </Tab>
+</Tabs>
+
+## Signal Visibility Settings
+
+Every saved search has a visibility setting that controls who on your team can see it.
+
+| Visibility | Description |
+|---|---|
+| **Recommended** | Curated by Specter based on your profile, industry focus, and past activity. These appear at the top of your Signals page by default. |
+| **Shared** | Visible to all members of your team workspace. Use this for signal feeds that your entire team should monitor together. |
+| **Private** | Visible only to you. Use this for personal prospecting lists or exploratory research you aren't ready to share. |
+
+<Note>
+  Team admins can promote a Private signal feed to Shared at any time from the Signals settings panel. Individual contributors can share their own feeds but cannot modify feeds created by other team members.
+</Note>

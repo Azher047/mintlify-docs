@@ -1,0 +1,80 @@
+---
+title: "Specter MCP: Query Private Markets from Any AI Agent"
+sidebarTitle: "Specter MCP"
+description: "Connect Specter to Claude, Cursor, OpenAI, and other AI agents via MCP to run real-time private markets research inside your AI workflows."
+---
+
+The Model Context Protocol (MCP) is an open standard that lets AI agents call external tools and data sources in real time. Specter's MCP server plugs your private markets intelligence directly into the AI tools you already work in. Instead of switching to the Specter dashboard, you can ask your AI agent to pull company metrics, find recent hires, search investors, or look up funding history — and get a structured, grounded answer backed by Specter's live data. No hallucinations, no outdated context.
+
+## Compatible AI Clients
+
+<CardGroup cols={3}>
+  <Card title="Claude" icon="message-bot">
+    Use Specter tools natively inside Claude Desktop or the Claude API via MCP.
+  </Card>
+  <Card title="Cursor" icon="code">
+    Query Specter from within your Cursor coding environment for deal research without context switching.
+  </Card>
+  <Card title="OpenAI" icon="sparkles">
+    Connect Specter to GPT-4o and other OpenAI models through MCP-compatible tooling.
+  </Card>
+  <Card title="Anthropic" icon="brain">
+    Integrate Specter directly into Anthropic-powered workflows and agentic pipelines.
+  </Card>
+  <Card title="Notion" icon="file-lines">
+    Surface Specter data inside Notion AI to enrich documents, CRM pages, and research notes in place.
+  </Card>
+  <Card title="Gemini" icon="google">
+    Connect Specter to Google's Gemini models for private markets context in your Google Workspace workflows.
+  </Card>
+</CardGroup>
+
+## Setting Up with Claude Desktop
+
+To connect Specter to Claude Desktop, add the following configuration to your `claude_desktop_config.json` file. You can find this file in your Claude Desktop settings under **Developer > MCP Servers**.
+
+```json claude_desktop_config.json
+{
+  "mcpServers": {
+    "specter": {
+      "command": "npx",
+      "args": ["-y", "@specter/mcp-server"],
+      "env": {
+        "SPECTER_API_KEY": "YOUR_API_KEY"
+      }
+    }
+  }
+}
+```
+
+Replace `YOUR_API_KEY` with your Specter API key, which you can find in your Specter dashboard under **Settings > API**. Once saved, restart Claude Desktop and the Specter tools will be available in your conversations.
+
+## Available MCP Tools
+
+Specter exposes 18 tools through the MCP server, covering companies, people, investors, transactions, and signals. Each tool is designed to return useful, structured results in a single call.
+
+| Tool | What It Does |
+|---|---|
+| `specter_find_company` | Find a specific company by domain or name |
+| `specter_find_person` | Find a person by name or email address |
+| `specter_search_companies` | Search companies with filters (stage, sector, location, growth signals) |
+| `specter_search_people` | Search people with filters (role, company, seniority, location) |
+| `specter_get_company_profile` | Retrieve the full enriched profile for a company |
+| `specter_get_company_intelligence` | Pull signals and traction data — hires, funding, news, growth indicators |
+| `specter_get_person_profile` | Retrieve the full profile for an individual |
+
+Plus 11 additional tools covering investor profiles, transaction records, funding rounds, signal feeds, and more — giving your AI agent full access to Specter's private markets universe.
+
+## Example: Researching a Company with MCP
+
+Once Specter MCP is connected, you can run natural-language research queries directly in your AI client. For example:
+
+> **"Get me the latest company metrics and senior hires for granola.ai from Specter."**
+
+Specter's MCP server resolves the company, fetches the current profile and intelligence data, and returns a structured answer — headcount, funding history, recent executive hires, and relevant signals — all within a single agent turn. No copy-pasting, no tab switching.
+
+The tools are designed to be job-oriented: each one is scoped to do useful, complete work in a single shot so your agent can chain them together naturally or use them standalone.
+
+<Warning>
+  Specter MCP is currently in **limited access**. To request access and get your API key, visit [tryspecter.com/contact](https://www.tryspecter.com/contact). The team will follow up to get you set up.
+</Warning>

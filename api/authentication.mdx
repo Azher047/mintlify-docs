@@ -1,0 +1,108 @@
+---
+title: "Specter API Authentication: Generate and Use API Keys"
+sidebarTitle: "Authentication"
+description: "Specter uses API key authentication. Learn how to generate your key from the dashboard and include it in every API request using the X-API-Key header."
+---
+
+Specter uses API key authentication to secure access to the API. Every request you make must include your API key in the `X-API-Key` header — requests without a valid key will be rejected with a `401 Unauthorized` response. There are no OAuth flows or token exchanges to manage; your key is all you need.
+
+## Getting Your API Key
+
+Follow these steps to generate an API key from the Specter dashboard:
+
+<Steps>
+  <Step title="Sign up or log in">
+    Visit [app.tryspecter.com](https://app.tryspecter.com) and sign in to your Specter account. If you don't have an account yet, create one for free.
+  </Step>
+  <Step title="Open API Key settings">
+    Once logged in, navigate to **Settings → API Keys** in the left-hand sidebar of the Specter dashboard.
+  </Step>
+  <Step title="Generate a new API key">
+    Click **Generate API Key**. You can optionally give it a label (e.g. `production`, `staging`) to help you manage multiple keys.
+  </Step>
+  <Step title="Copy and store your key securely">
+    Your new API key will be displayed once. Copy it immediately and store it in a secure location such as a password manager or secrets vault — **it will not be shown again**. If you lose it, you will need to generate a new one.
+  </Step>
+</Steps>
+
+## Making Authenticated Requests
+
+Pass your API key in the `X-API-Key` header on every request. Here is a basic example using `curl`:
+
+```bash
+curl --request GET \
+  --url https://app.tryspecter.com/api/v1/companies/{companyId} \
+  --header 'X-API-Key: YOUR_API_KEY'
+```
+
+Replace `YOUR_API_KEY` with the key you copied from the dashboard, and `{companyId}` with the ID of the company you want to retrieve.
+
+## Multi-Language Examples
+
+The `X-API-Key` header works the same way across all HTTP clients. Use the examples below to get started in your preferred language:
+
+<CodeGroup>
+
+```bash curl
+curl --request GET \
+  --url https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g \
+  --header 'X-API-Key: YOUR_API_KEY'
+```
+
+```python Python
+import requests
+
+headers = {"X-API-Key": "YOUR_API_KEY"}
+response = requests.get(
+    "https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g",
+    headers=headers
+)
+
+data = response.json()
+print(data)
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g',
+  { headers: { 'X-API-Key': 'YOUR_API_KEY' } }
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+```go Go
+req, _ := http.NewRequest("GET", "https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g", nil)
+req.Header.Set("X-API-Key", "YOUR_API_KEY")
+client := &http.Client{}
+resp, err := client.Do(req)
+```
+
+</CodeGroup>
+
+## Request Header Reference
+
+<ParamField header="X-API-Key" type="string" required>
+  Your Specter API key. Obtain this from **Settings → API Keys** in the [Specter dashboard](https://app.tryspecter.com). Every API request must include this header.
+</ParamField>
+
+## Error Handling
+
+If your request is not authenticated correctly, the API returns one of the following errors:
+
+| Code | Cause | How to Fix |
+|------|-------|------------|
+| `401` | Missing or invalid API key | Confirm you are passing the `X-API-Key` header (not `Authorization: Bearer`) and that your key is correct and active |
+| `403` | Endpoint not available on your plan | Your current plan does not include this endpoint — [contact Specter support](mailto:azher@tryspecter.com) to upgrade |
+| `429` | Rate limit exceeded | You have sent too many requests — implement exponential backoff and retry after a short delay |
+
+For `429` errors in particular, we recommend implementing exponential backoff: wait a short interval before retrying, and double the wait time with each subsequent retry until the request succeeds.
+
+<Warning>
+  Keep your API key confidential at all times:
+
+  - **Never** embed your API key in client-side code, browser JavaScript, or public repositories — anyone who finds it can access your account.
+  - If your key is compromised, rotate it immediately by generating a new one in the [Specter dashboard](https://app.tryspecter.com) and revoking the old one.
+  - Store your API key using environment variables (e.g. `SPECTER_API_KEY`) rather than hardcoding it in your source code.
+</Warning>

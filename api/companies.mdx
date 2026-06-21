@@ -1,0 +1,224 @@
+---
+title: "Companies API: Enrich 55M+ Company Profiles"
+sidebarTitle: "Companies"
+description: "Retrieve structured company profiles including funding history, headcount, web traction, revenue estimates, and real-time growth signals across 55M+ companies."
+---
+
+The Companies API gives you direct access to Specter's full company intelligence layer. Each profile aggregates structured data across funding rounds, hiring trends, web traffic, revenue estimates, social traction, and proprietary growth signals — all normalized and ready to use in your workflows.
+
+## Get a Company Profile
+
+**`GET /api/v1/companies/{companyId}`**
+
+Retrieve the full enriched profile for a single company by its Specter ID.
+
+### Path Parameters
+
+<ParamField path="companyId" type="string" required>
+  The unique Specter ID for the company. You can obtain this from a search result or a previously stored record.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://app.tryspecter.com/api/v1/companies/cmp_01h9xk2r4n5t8v3w" \
+  --header "X-API-Key: YOUR_API_KEY"
+```
+
+### Example Response
+
+```json
+{
+  "id": "cmp_01h9xk2r4n5t8v3w",
+  "organization_name": "Acme AI",
+  "description": "Acme AI builds enterprise-grade machine learning infrastructure for real-time data pipelines and predictive analytics.",
+  "industries": ["Artificial Intelligence", "Data Infrastructure", "Enterprise Software"],
+  "operating_status": "active",
+  "employee_count": 312,
+  "growth_stage": "growth_stage",
+  "highlights": ["headcount_surge", "top_tier_investors", "revenue_signal"],
+  "funding": {
+    "total_funding_usd": 87000000,
+    "last_funding_date": "2024-03-15",
+    "last_funding_type": "series_b",
+    "round_count": 4
+  },
+  "hq": {
+    "city": "San Francisco",
+    "state": "California",
+    "country": "United States",
+    "region": "North America"
+  },
+  "revenue_estimate_usd": 14200000,
+  "socials": {
+    "twitter": { "handle": "acmeai", "followers": 18400 },
+    "linkedin": { "url": "https://linkedin.com/company/acme-ai", "followers": 22100 },
+    "instagram": { "handle": "acmeai", "followers": 3200 }
+  },
+  "web": {
+    "visits": 490000,
+    "popularity_rank": 84210,
+    "bounce_rate": 0.41,
+    "session_duration": 182
+  },
+  "traction_metrics": {
+    "web_visits": {
+      "latest": 490000,
+      "1mo": 0.08,
+      "3mo": 0.21,
+      "6mo": 0.39,
+      "12mo": 0.74
+    },
+    "employee_count": {
+      "latest": 312,
+      "1mo": 0.03,
+      "3mo": 0.11,
+      "6mo": 0.24,
+      "12mo": 0.51
+    },
+    "linkedin_followers": {
+      "latest": 22100,
+      "1mo": 0.02,
+      "3mo": 0.09,
+      "6mo": 0.18,
+      "12mo": 0.43
+    }
+  }
+}
+```
+
+### Response Fields
+
+<ResponseField name="id" type="string">
+  Specter's unique identifier for the company. Use this ID when querying related endpoints such as transactions or signals.
+</ResponseField>
+
+<ResponseField name="organization_name" type="string">
+  The company's official trading or registered name.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  A structured summary of the company's product, market, and value proposition.
+</ResponseField>
+
+<ResponseField name="industries" type="array">
+  A list of industry and sector tags applied to the company, derived from Specter's classification taxonomy.
+</ResponseField>
+
+<ResponseField name="operating_status" type="string">
+  Current operational status of the company. One of: `active`, `inactive`, or `acquired`.
+</ResponseField>
+
+<ResponseField name="employee_count" type="integer">
+  The most recent headcount estimate based on aggregated signals including LinkedIn and job posting data.
+</ResponseField>
+
+<ResponseField name="growth_stage" type="string">
+  Specter's proprietary funding and maturity stage classification. One of: `pre_launch`, `early_stage`, `growth_stage`, or `late_stage`.
+</ResponseField>
+
+<ResponseField name="highlights" type="array">
+  A list of signal labels that flag notable activity or characteristics. Examples include `headcount_surge`, `top_tier_investors`, `revenue_signal`, and `recent_acquisition`.
+</ResponseField>
+
+<ResponseField name="funding" type="object">
+  Aggregated funding data for the company.
+  <Expandable title="funding fields">
+    <ResponseField name="total_funding_usd" type="integer">
+      Total capital raised across all rounds, in USD.
+    </ResponseField>
+    <ResponseField name="last_funding_date" type="string">
+      ISO 8601 date of the most recent funding event.
+    </ResponseField>
+    <ResponseField name="last_funding_type" type="string">
+      Round type of the most recent funding event, e.g. `series_b`, `seed`, `growth_equity`.
+    </ResponseField>
+    <ResponseField name="round_count" type="integer">
+      Total number of tracked funding rounds.
+    </ResponseField>
+    <ResponseField name="post_money_valuation_usd" type="integer">
+      Post-money valuation in USD from the most recent round where disclosed. `null` if undisclosed.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="hq" type="object">
+  Headquarters location data.
+  <Expandable title="hq fields">
+    <ResponseField name="city" type="string">
+      City where the company is headquartered.
+    </ResponseField>
+    <ResponseField name="state" type="string">
+      State or province, where applicable.
+    </ResponseField>
+    <ResponseField name="country" type="string">
+      Country of headquarters.
+    </ResponseField>
+    <ResponseField name="region" type="string">
+      Broad geographic region, e.g. `North America`, `Europe`, `Southeast Asia`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="revenue_estimate_usd" type="integer">
+  Specter's modeled annual revenue estimate in USD, derived from web traffic, headcount, funding, and industry benchmarks.
+</ResponseField>
+
+<ResponseField name="socials" type="object">
+  Social media presence and follower counts.
+  <Expandable title="socials fields">
+    <ResponseField name="twitter" type="object">
+      Twitter/X handle and current follower count.
+    </ResponseField>
+    <ResponseField name="linkedin" type="object">
+      LinkedIn company page URL and follower count.
+    </ResponseField>
+    <ResponseField name="instagram" type="object">
+      Instagram handle and follower count.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="web" type="object">
+  Website traffic and engagement metrics.
+  <Expandable title="web fields">
+    <ResponseField name="visits" type="integer">
+      Estimated monthly unique website visits.
+    </ResponseField>
+    <ResponseField name="popularity_rank" type="integer">
+      Global website popularity rank. Lower values indicate higher traffic.
+    </ResponseField>
+    <ResponseField name="bounce_rate" type="number">
+      Ratio of single-page sessions to total visits, expressed as a decimal (e.g. `0.41` = 41%).
+    </ResponseField>
+    <ResponseField name="session_duration" type="integer">
+      Average session duration in seconds.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="traction_metrics" type="object">
+  Time-series growth metrics for key signals. Each metric object contains a `latest` absolute value and percentage change keys `1mo`, `3mo`, `6mo`, and `12mo`, expressed as decimals (e.g. `0.21` = +21%).
+  <Expandable title="traction_metrics fields">
+    <ResponseField name="web_visits" type="object">
+      Monthly web visit trends, with `latest` count and change ratios for `1mo`, `3mo`, `6mo`, and `12mo` windows.
+    </ResponseField>
+    <ResponseField name="employee_count" type="object">
+      Headcount trends, with `latest` count and change ratios for `1mo`, `3mo`, `6mo`, and `12mo` windows.
+    </ResponseField>
+    <ResponseField name="linkedin_followers" type="object">
+      LinkedIn follower growth, with `latest` count and change ratios for `1mo`, `3mo`, `6mo`, and `12mo` windows.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Error Codes
+
+| Status | Meaning |
+|--------|---------|
+| `200` | Success — company profile returned |
+| `401` | Missing or invalid API key |
+| `403` | Your plan does not include access to this endpoint |
+| `404` | No company found for the provided ID |
+| `429` | Rate limit exceeded — slow down your request cadence |

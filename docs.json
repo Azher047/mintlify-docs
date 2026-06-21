@@ -1,0 +1,107 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "luma",
+  "name": "Specter",
+  "colors": {
+    "primary": "#54545c"
+  },
+  "favicon": "https://icons.duckduckgo.com/ip3/starter.mintlify.com.ico",
+  "logo": {
+    "light": "https://media.brand.dev/99d23bb0-7527-48e5-b2c1-71011df3a4d8.svg",
+    "dark": "https://media.brand.dev/99d23bb0-7527-48e5-b2c1-71011df3a4d8.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:azher@tryspecter.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Get Started",
+      "href": "https://app.tryspecter.com"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Data",
+            "pages": [
+              "data/companies",
+              "data/people",
+              "data/investors",
+              "data/transactions"
+            ]
+          },
+          {
+            "group": "Signals",
+            "pages": [
+              "signals/overview",
+              "signals/revenue",
+              "signals/talent",
+              "signals/investor-interest",
+              "signals/news"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/crm",
+              "integrations/chrome-extension",
+              "integrations/network-tracking",
+              "integrations/bulk-data",
+              "integrations/mcp"
+            ]
+          },
+          {
+            "group": "Support",
+            "pages": [
+              "faq",
+              "changelog"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api/companies",
+              "api/people",
+              "api/investors",
+              "api/transactions",
+              "api/signals",
+              "api/search"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/specterhq",
+      "linkedin": "https://www.linkedin.com/company/specterhq"
+    }
+  }
+}

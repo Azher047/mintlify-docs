@@ -1,0 +1,156 @@
+---
+title: "Revenue Signals: Track Private Company Financials"
+sidebarTitle: "Revenue Signals"
+description: "Get 500+ daily revenue signals sourced from news, social, podcasts, and filings — AI and human verified before they reach your feed."
+---
+
+Revenue Signals give you a real-time window into the financial performance of private companies. Specter ingests and verifies 500+ revenue disclosures every day from across the web — including off-hand ARR mentions on podcasts, buried figures in press releases, and revenue ranges disclosed in filings — then structures that raw data into clean, comparable signals. Every signal is verified by a combination of AI and human review before it appears in your feed, so you can act on the data with confidence.
+
+## What Revenue Signals Cover
+
+Each revenue signal represents a verifiable financial disclosure tied to a specific company. Signals capture the following data points where available:
+
+- **Revenue or ARR amount** — the disclosed figure in USD
+- **Time period** — the period the figure refers to (annual, quarterly, monthly)
+- **Revenue type** — ARR, total revenue, or other classification
+- **Profitability status** — whether the company disclosed profitability alongside the revenue figure
+- **Source** — the original URL where the disclosure was found
+- **Confidence score** — Specter's AI-assessed reliability rating for the signal
+
+## Sources
+
+Specter monitors the following source categories to build its revenue signal feed:
+
+| Source | Examples |
+|---|---|
+| **X / Twitter** | Founder posts, investor commentary |
+| **LinkedIn** | Company updates, executive posts |
+| **News** | TechCrunch, Bloomberg, sector publications |
+| **Podcasts** | Founder interviews, investor podcasts |
+| **Press Releases** | Official company announcements |
+| **Company Sites** | About pages, case studies, pricing pages |
+| **Company Filings** | SEC filings, international regulatory disclosures |
+| **Proprietary Sources** | Specter's network of direct data contributors |
+
+## Example Signal Entries
+
+Below are representative examples of the signals you will see in your revenue feed.
+
+| Company | Signal | Date | Source | Confidence |
+|---|---|---|---|---|
+| Wenrix | ARR: $20M | Jan 14, 2025 | Podcast interview | High |
+| Draftbit | Revenue: $4.2M | Jan 11, 2025 | LinkedIn post | High |
+| Causal | ARR: $8M, Profitable | Jan 09, 2025 | Press release | Verified |
+| Neon Database | ARR: $12M+ | Jan 07, 2025 | Founder tweet | Medium |
+
+<Note>
+  Signals marked **Verified** have been confirmed against a primary source document such as a filing or official press release. Signals marked **High** or **Medium** reflect AI confidence scores based on source credibility and corroboration.
+</Note>
+
+## Revenue & Valuation Estimates
+
+In addition to event-driven revenue signals, Specter provides continuously modeled **Revenue & Valuation Estimates** for every company in its database. These are live estimates — not point-in-time snapshots — updated monthly and anchored to the verified disclosures captured by Revenue Signals.
+
+Each estimate includes:
+- **Modeled monthly revenue** — derived from a combination of verified disclosures, headcount data, and comparable company benchmarks
+- **Valuation estimate** — modeled based on revenue multiples, growth signals, and investor activity
+- **Confidence bands** — upper and lower bounds that reflect the uncertainty in the underlying data
+
+<Tip>
+  Use Revenue & Valuation Estimates when you need a baseline for every company in a list, and Revenue Signals when you want to know the moment a company makes a new financial disclosure.
+</Tip>
+
+## API Reference
+
+Use the Revenue Signals endpoint to query verified revenue disclosures programmatically and pipe them into your own models, CRM, or alerts infrastructure.
+
+### Endpoint
+
+```
+GET /api/v1/signals/revenue
+```
+
+### Query Parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `from_date` | `string` | ISO 8601 date. Returns signals on or after this date. |
+| `to_date` | `string` | ISO 8601 date. Returns signals on or before this date. |
+| `min_revenue_usd` | `integer` | Filters to signals where the disclosed amount is at or above this value. |
+| `max_revenue_usd` | `integer` | Filters to signals where the disclosed amount is at or below this value. |
+| `revenue_type` | `string` | `ARR`, `Revenue`, or `Other`. |
+| `is_profitable` | `boolean` | When `true`, returns only signals that include a profitability disclosure. |
+| `limit` | `integer` | Maximum number of results to return (default: `50`, max: `500`). |
+
+### Example Request
+
+```bash
+curl -X GET "https://app.tryspecter.com/api/v1/signals/revenue?from_date=2024-01-01&min_revenue_usd=1000000" \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "company_id": "cmp_8f3a91bc",
+      "company_name": "Wenrix",
+      "signal_date": "2025-01-14",
+      "revenue_type": "ARR",
+      "amount_usd": 20000000,
+      "period": "Annual",
+      "is_profitable": false,
+      "source_url": "https://podcasts.example.com/episodes/wenrix-founder",
+      "source_type": "podcast",
+      "confidence": "high"
+    },
+    {
+      "company_id": "cmp_2c74de05",
+      "company_name": "Draftbit",
+      "signal_date": "2025-01-11",
+      "revenue_type": "Revenue",
+      "amount_usd": 4200000,
+      "period": "Annual",
+      "is_profitable": true,
+      "source_url": "https://linkedin.com/posts/draftbit-update",
+      "source_type": "social",
+      "confidence": "high"
+    },
+    {
+      "company_id": "cmp_a19f7741",
+      "company_name": "Causal",
+      "signal_date": "2025-01-09",
+      "revenue_type": "ARR",
+      "amount_usd": 8000000,
+      "period": "Annual",
+      "is_profitable": true,
+      "source_url": "https://causal.app/press/2025-growth",
+      "source_type": "press_release",
+      "confidence": "verified"
+    }
+  ],
+  "meta": {
+    "total": 3,
+    "page": 1,
+    "limit": 50
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `company_id` | `string` | Specter's unique identifier for the company. |
+| `company_name` | `string` | Company display name. |
+| `signal_date` | `string` | ISO 8601 date the signal was verified and published. |
+| `revenue_type` | `string` | Classification of the disclosed figure: `ARR`, `Revenue`, or `Other`. |
+| `amount_usd` | `integer` | Disclosed amount in US dollars. |
+| `period` | `string` | Time period the figure refers to: `Annual`, `Quarterly`, or `Monthly`. |
+| `source_url` | `string` | Direct URL to the source where the disclosure was found. |
+| `source_type` | `string` | Category of the source: `news`, `social`, `podcast`, `press_release`, `filing`, or `company_site`. |
+| `is_profitable` | `boolean` | `true` if the company disclosed profitability alongside the revenue figure. |
+| `confidence` | `string` | Signal reliability: `verified`, `high`, or `medium`. |

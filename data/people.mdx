@@ -1,0 +1,148 @@
+---
+title: "People Data: 60+ Data Points on 550M+ Professionals"
+sidebarTitle: "People"
+description: "Explore 550M+ professional profiles with career history, education, founder signals, investment activity, and talent intelligence."
+---
+
+Specter's people database spans **550 million+ professional profiles** — covering founders, executives, investors, operators, and emerging talent across every industry and geography. Each profile aggregates **60+ data points** sourced from public signals, career networks, and proprietary intelligence to give you a complete picture of the individuals behind the companies you're tracking. Use people data to evaluate founding teams, map networks, identify warm introduction paths, or surface talent signals before a hire or investment.
+
+## Data Categories
+
+<CardGroup cols={2}>
+  <Card title="Profile Data" icon="id-card" href="/data/people#data-categories">
+    Full name, current title, current company, location, professional summary, and contact signals.
+  </Card>
+  <Card title="Career History" icon="briefcase" href="/data/people#data-categories">
+    Chronological employment history including company names, roles, tenures, and any gaps — structured for quick pattern recognition.
+  </Card>
+  <Card title="Education" icon="graduation-cap" href="/data/people#data-categories">
+    Degree, field of study, institution, and graduation year. Includes flags for top-tier universities relevant to investor screening.
+  </Card>
+  <Card title="Network" icon="diagram-project" href="/data/people#data-categories">
+    Mutual connections, co-workers at past companies, and co-investors — essential for mapping warm paths to a founder or executive.
+  </Card>
+  <Card title="Talent Signals" icon="signal" href="/data/people#data-categories">
+    Indicators of career momentum: recent promotions, company changes, new board appointments, and hiring activity at their current company.
+  </Card>
+  <Card title="Social Links" icon="link" href="/data/people#data-categories">
+    Verified links to LinkedIn, X (Twitter), GitHub, personal websites, and other public profiles for direct outreach or deeper research.
+  </Card>
+  <Card title="Investment Activity" icon="coins" href="/data/people#data-categories">
+    Angel investments, advisory roles, board seats, and fund affiliations — critical context when evaluating operator-turned-investor profiles.
+  </Card>
+  <Card title="News & Mentions" icon="newspaper" href="/data/people#data-categories">
+    Timestamped press mentions, podcast appearances, speaking engagements, and published content linked directly to the individual.
+  </Card>
+</CardGroup>
+
+## Founder Highlights
+
+Specter applies a set of AI-generated **founder highlight flags** to surface exceptional backgrounds during team due diligence or sourcing. These signals are available as filters in search and are returned in the API response.
+
+| Highlight | What It Means |
+|---|---|
+| `Prior Exit` | Founded or co-founded a company that was acquired or had a successful exit |
+| `Prior IPO` | Part of a founding or executive team that took a company public |
+| `Serial Founder` | Has founded two or more companies, regardless of outcome |
+| `VC-Backed Founder` | Previously ran a venture-backed company |
+| `Top University` | Attended a globally recognized institution (e.g., MIT, Stanford, Oxbridge, IITs) |
+| `Unicorn Experience` | Worked at or founded a company that reached a $1B+ valuation |
+| `Fortune 500 Experience` | Held a significant role at a Fortune 500 company before founding |
+
+<Note>
+  Founder highlights are particularly powerful when combined with company filters. For example: *"Show me Series A companies in fintech where at least one founder has a Prior Exit and a Top University background."*
+</Note>
+
+## API Reference
+
+Retrieve a full people profile using a person's unique Specter identifier.
+
+```bash
+GET https://app.tryspecter.com/api/v1/people/{personId}
+```
+
+**Headers**
+
+| Header | Value |
+|---|---|
+| `X-API-Key` | Your Specter API key |
+
+**Example Request**
+
+```bash
+curl -X GET "https://app.tryspecter.com/api/v1/people/per_04jw2m8bn7" \
+  -H "X-API-Key: sk_live_yourApiKeyHere"
+```
+
+**Example Response**
+
+```json
+{
+  "id": "per_04jw2m8bn7",
+  "full_name": "Priya Anand",
+  "title": "Co-Founder & CEO",
+  "current_company": {
+    "id": "comp_01hx9z3kp2",
+    "name": "Luminary AI"
+  },
+  "location": {
+    "city": "San Francisco",
+    "state": "CA",
+    "country": "United States"
+  },
+  "career_history": [
+    {
+      "name": "Adobe",
+      "title": "Senior Product Manager, Creative Cloud",
+      "start_year": 2017,
+      "end_year": 2020
+    },
+    {
+      "name": "Loom",
+      "title": "Head of Product",
+      "start_year": 2020,
+      "end_year": 2021,
+      "exit_type": "acquired"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Stanford University",
+      "degree": "MBA",
+      "field": "Business Administration",
+      "graduation_year": 2017
+    },
+    {
+      "institution": "IIT Bombay",
+      "degree": "BTech",
+      "field": "Computer Science",
+      "graduation_year": 2013
+    }
+  ],
+  "highlights": [
+    "Prior Exit",
+    "VC-Backed Founder",
+    "Top University"
+  ],
+  "investment_activity": [
+    {
+      "company": "Vanta",
+      "role": "Angel Investor",
+      "year": 2022
+    }
+  ],
+  "social_links": {
+    "linkedin_url": "https://linkedin.com/in/priyaanand",
+    "twitter_url": "https://twitter.com/priyaanand"
+  },
+  "updated_at": "2025-01-10T14:05:18Z"
+}
+```
+
+<Tip>
+  Use the **Network** data to find colleagues from a founder's past companies who are already in your firm's network. A warm introduction from a shared connection at a previous employer is often more effective than a cold outreach.
+</Tip>
+
+<Warning>
+  People data is aggregated from public sources and refreshed on a rolling basis. For high-stakes outreach or sensitive due diligence, cross-reference key details — particularly contact information — before acting on them.
+</Warning>

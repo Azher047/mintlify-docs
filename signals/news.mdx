@@ -1,0 +1,167 @@
+---
+title: "News Signals: Real-Time Intelligence from 60,000+ Sources"
+sidebarTitle: "News Signals"
+description: "Monitor real-time news from 60,000+ verified sources — AI-summarized, structured, and linked to company and people profiles across Specter."
+---
+
+News Signals give you a continuously updated stream of news, social coverage, and press activity across the private company universe — structured and summarized by AI so you spend time on insight, not on reading. Specter ingests content from more than 60,000 verified sources, strips out the noise, and links each article or post directly to the relevant company and people profiles in your workspace. Whether you're monitoring a single portfolio company or scanning an entire sector, News Signals surface what matters and discard what doesn't.
+
+## How News Signals Work
+
+Specter's News Signal pipeline runs in three stages: ingestion, enrichment, and delivery.
+
+<Steps>
+  <Step title="Ingestion">
+    Specter continuously monitors 60,000+ verified sources including news outlets, social platforms, podcasts, and press release wires. New content is ingested in real time as it is published.
+  </Step>
+  <Step title="AI Enrichment">
+    Each piece of content is processed by Specter's AI to generate a structured summary, extract key entities (companies, people, investors), and classify the signal type — such as product launch, funding event, executive move, or competitive development.
+  </Step>
+  <Step title="Delivery">
+    Enriched signals are linked to the relevant company and people profiles in Specter and surfaced in your search results, list views, and profile pages — or delivered via the API for integration into your own tools.
+  </Step>
+</Steps>
+
+## Source Categories
+
+Specter's 60,000+ verified sources span a broad range of content types to ensure comprehensive coverage across sectors and geographies.
+
+| Source Category | Examples |
+|---|---|
+| **News Outlets** | TechCrunch, Bloomberg, Reuters, sector-specific publications |
+| **Social Posts** | X / Twitter, LinkedIn public posts |
+| **Podcasts** | Founder interviews, investor podcasts, industry shows |
+| **Press Releases** | PR Newswire, Business Wire, company newsrooms |
+| **Company Sites** | Blog posts, product announcements, hiring pages |
+
+## Where News Signals Appear
+
+News Signals are embedded throughout the Specter platform rather than siloed in a single feed. You'll encounter them in several places as you work.
+
+<Tabs>
+  <Tab title="Search Results">
+    When you run a search for companies or people, the results include a **News** column showing the most recent signal for each entity. This gives you an immediate read on what's happening at every company in your results set without clicking through to individual profiles.
+  </Tab>
+  <Tab title="Company Profiles">
+    Each company profile in Specter includes a **News & Signals** tab showing all recent news signals linked to that company. Signals are displayed in reverse chronological order with AI-generated summaries, source links, and classification tags.
+  </Tab>
+  <Tab title="Lists">
+    When you build or view a company or people list, News Signals are surfaced inline so you can see recent activity across your entire list in one view. Use this to quickly identify which companies in a list are most active or newsworthy at any given moment.
+  </Tab>
+  <Tab title="Saved Searches">
+    Add news coverage as a filter or signal layer on any saved search. New news signals matching your criteria will appear in your feed as they are verified, allowing you to track coverage in a specific sector or across a specific list of companies over time.
+  </Tab>
+</Tabs>
+
+## Filtering News Signals
+
+You can narrow the News Signals feed using the following filter dimensions, available in both the web app and the API.
+
+| Filter | Description |
+|---|---|
+| **Company** | Filter signals to a specific company or a list of companies. |
+| **Industry** | Limit coverage to a specific vertical such as FinTech, AI/ML, or HealthTech. |
+| **Signal Type** | Filter by content classification: funding event, product launch, executive move, partnership, or competitive development. |
+| **Date Range** | Specify a start and end date to scope the feed to a particular time window. |
+| **Source Type** | Restrict results to a specific source category, such as news only or social only. |
+
+<Tip>
+  Use the **Company + Date Range** filter combination when preparing for a meeting or pitch. It gives you a structured timeline of everything that has been publicly reported about a company over a specified period.
+</Tip>
+
+## API Reference
+
+Access News Signals programmatically to build custom monitoring tools, enrich internal databases, or trigger automated workflows based on news events.
+
+### Endpoint
+
+```
+GET /api/v1/signals/news
+```
+
+### Query Parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `company_id` | `string` | Filter signals to a specific company by its Specter ID. |
+| `industry` | `string` | Filter by industry vertical, e.g. `fintech`, `ai_ml`, `healthtech`. |
+| `signal_type` | `string` | Content classification: `funding`, `product_launch`, `executive_move`, `partnership`, `competitive`. |
+| `source_type` | `string` | Source category: `news`, `social`, `podcast`, `press_release`. |
+| `from_date` | `string` | ISO 8601 date. Returns signals on or after this date. |
+| `to_date` | `string` | ISO 8601 date. Returns signals on or before this date. |
+| `limit` | `integer` | Maximum number of results (default: `50`, max: `500`). |
+
+### Example Request
+
+<Tabs>
+  <Tab title="By Company">
+    ```bash
+    curl -X GET "https://app.tryspecter.com/api/v1/signals/news?company_id=cmp_8f3a91bc&from_date=2024-01-01" \
+      -H "X-API-Key: YOUR_API_KEY" \
+      -H "Content-Type: application/json"
+    ```
+  </Tab>
+  <Tab title="By Industry">
+    ```bash
+    curl -X GET "https://app.tryspecter.com/api/v1/signals/news?industry=fintech&signal_type=funding&from_date=2024-06-01" \
+      -H "X-API-Key: YOUR_API_KEY" \
+      -H "Content-Type: application/json"
+    ```
+  </Tab>
+</Tabs>
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "signal_id": "nws_4c91e2ab",
+      "company_id": "cmp_8f3a91bc",
+      "company_name": "Wenrix",
+      "headline": "Wenrix raises $15M Series A to expand its B2B payments platform",
+      "summary": "Wenrix announced a $15M Series A round led by Sequoia Capital. The company, which provides embedded B2B payment infrastructure, plans to use the funds to grow its engineering team and expand into European markets.",
+      "signal_type": "funding",
+      "source_type": "news",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com/2025/01/14/wenrix-series-a",
+      "published_date": "2025-01-14",
+      "signal_date": "2025-01-14"
+    },
+    {
+      "signal_id": "nws_7f03d810",
+      "company_id": "cmp_2c74de05",
+      "company_name": "Draftbit",
+      "headline": "Draftbit launches AI-powered component builder for React Native",
+      "summary": "Draftbit released a new AI-assisted drag-and-drop component builder that generates production-ready React Native code. The feature is available to all paid plans starting today.",
+      "signal_type": "product_launch",
+      "source_type": "press_release",
+      "source_name": "Business Wire",
+      "source_url": "https://businesswire.com/news/draftbit-launch-2025",
+      "published_date": "2025-01-11",
+      "signal_date": "2025-01-11"
+    }
+  ],
+  "meta": {
+    "total": 2,
+    "page": 1,
+    "limit": 50
+  }
+}
+```
+
+### Response Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `signal_id` | `string` | Specter's unique identifier for this news signal. |
+| `company_id` | `string` | Specter's unique identifier for the linked company. |
+| `company_name` | `string` | Company display name. |
+| `headline` | `string` | Original headline or title of the source content. |
+| `summary` | `string` | AI-generated summary of the article or post, structured to highlight the key facts. |
+| `signal_type` | `string` | Content classification: `funding`, `product_launch`, `executive_move`, `partnership`, or `competitive`. |
+| `source_type` | `string` | Category of the source: `news`, `social`, `podcast`, or `press_release`. |
+| `source_name` | `string` | Display name of the publication or platform. |
+| `source_url` | `string` | Direct URL to the original content. |
+| `published_date` | `string` | ISO 8601 date the original content was published. |
+| `signal_date` | `string` | ISO 8601 date the signal was processed and made available in Specter. |

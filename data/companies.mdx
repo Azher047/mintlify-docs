@@ -1,0 +1,137 @@
+---
+title: "Company Data: 250+ Data Points Across 55M+ Companies"
+sidebarTitle: "Companies"
+description: "Access firmographics, funding history, team intelligence, web traffic metrics, and AI highlights across 55M+ private and public companies."
+---
+
+Specter's company database covers **55 million+ companies** worldwide, giving you a 360-degree view of any organization — from early-stage startups to publicly traded enterprises. Each company profile surfaces **250+ data points** spanning everything from founding details and funding history to real-time web traffic signals and product review sentiment. Whether you're sourcing deals, mapping a competitive landscape, or validating a target, company data is the core of your research workflow.
+
+## Data Categories
+
+<CardGroup cols={2}>
+  <Card title="Firmographics" icon="building" href="/data/companies#data-categories">
+    Company name, description, industry vertical, HQ location, founding year, operating status, employee count range, and curated tags for quick filtering.
+  </Card>
+  <Card title="Funding & Financials" icon="chart-line" href="/data/companies#data-categories">
+    Total funding raised, last round type and date, post-money valuation, revenue estimates, and investor roster per round.
+  </Card>
+  <Card title="Team" icon="users" href="/data/companies#data-categories">
+    Founder profiles, current headcount, key executives, and recent leadership changes that signal organizational momentum.
+  </Card>
+  <Card title="Web & App Intelligence" icon="globe" href="/data/companies#data-categories">
+    Monthly website visits, global popularity rank, bounce rate, average session duration, traffic sources, and mobile app install estimates.
+  </Card>
+  <Card title="Social Metrics" icon="share-nodes" href="/data/companies#data-categories">
+    Follower counts and growth trends across LinkedIn, X (Twitter), Instagram, Facebook, and YouTube — a proxy for brand traction.
+  </Card>
+  <Card title="Product Reviews" icon="star" href="/data/companies#data-categories">
+    Aggregated ratings and review counts from G2, Trustpilot, the Chrome Web Store, and other platforms to gauge customer satisfaction.
+  </Card>
+  <Card title="News & Awards" icon="newspaper" href="/data/companies#data-categories">
+    Recent press mentions, industry award wins, and notable announcements sourced and timestamped for context.
+  </Card>
+  <Card title="Highlights" icon="bolt" href="/data/companies#data-categories">
+    AI-generated signals such as `headcount_surge`, `strong_social_growth`, `no_recent_funding`, and `strong_web_traffic_growth` that surface companies worth a closer look.
+  </Card>
+</CardGroup>
+
+## Natural Language Search
+
+You don't need to build complex filter stacks to find the right companies. Specter's natural language search lets you describe what you're looking for in plain English:
+
+> *"Show me growth stage AI video companies"*
+> *"Find B2B SaaS companies in the Nordics with 50–200 employees that raised a Series A in the last 18 months"*
+> *"List climate tech startups with strong web traffic growth and a recent leadership hire"*
+
+Specter interprets your query, maps it to the relevant filters, and returns a ranked list of matching companies — no manual filter configuration required.
+
+## Similar Company Search
+
+Use the **Similar Companies** feature on any profile to instantly surface competitors, adjacent players, and potential acquisition targets that share the same market positioning. This is particularly useful for:
+
+- **Competitive intelligence:** Build a complete map of a market segment before a deal closes.
+- **Sourcing alternatives:** If your primary target isn't available, find comparable companies at similar stages.
+- **Market sizing:** Understand the density of a space by seeing all meaningful players in one view.
+
+## API Reference
+
+Retrieve a full company profile programmatically using the company's unique identifier.
+
+```bash
+GET https://app.tryspecter.com/api/v1/companies/{companyId}
+```
+
+**Headers**
+
+| Header | Value |
+|---|---|
+| `X-API-Key` | Your Specter API key |
+
+**Example Request**
+
+```bash
+curl -X GET "https://app.tryspecter.com/api/v1/companies/comp_01hx9z3kp2" \
+  -H "X-API-Key: sk_live_yourApiKeyHere"
+```
+
+**Example Response**
+
+```json
+{
+  "id": "comp_01hx9z3kp2",
+  "organization_name": "Luminary AI",
+  "description": "Enterprise video generation platform powered by generative AI, enabling marketing teams to produce on-brand video content at scale.",
+  "industries": ["Artificial Intelligence", "Marketing Technology"],
+  "operating_status": "active",
+  "employee_count": 87,
+  "growth_stage": "series_a",
+  "hq": {
+    "city": "San Francisco",
+    "state": "CA",
+    "country": "United States"
+  },
+  "funding": {
+    "total_funding_usd": 34500000,
+    "last_funding_date": "2024-03-12",
+    "last_funding_type": "series_a",
+    "round_count": 2
+  },
+  "revenue_estimate_usd": 4200000,
+  "socials": {
+    "linkedin_followers": 9800,
+    "twitter_followers": 14200,
+    "instagram_followers": 3100
+  },
+  "web": {
+    "monthly_visits": 412000,
+    "global_rank": 84210,
+    "bounce_rate": 0.38,
+    "avg_session_duration_seconds": 187,
+    "traffic_sources": {
+      "organic_search": 0.52,
+      "direct": 0.28,
+      "referral": 0.12,
+      "social": 0.08
+    }
+  },
+  "traction_metrics": {
+    "headcount_growth_6m_pct": 42,
+    "web_traffic_growth_6m_pct": 31,
+    "social_follower_growth_6m_pct": 28
+  },
+  "highlights": [
+    "top_tier_investors",
+    "headcount_surge",
+    "strong_social_growth"
+  ],
+  "updated_at": "2025-01-15T08:22:41Z"
+}
+```
+
+<Note>
+  The `highlights` array contains AI-generated signals refreshed regularly. Use these as quick filters when screening large lists — for example, filtering a watchlist to only companies with `top_tier_investors` or `headcount_surge` before a call with a founder.
+</Note>
+
+<Tip>
+  Install the **Specter Chrome Extension** to surface company profiles, funding data, and highlights directly on LinkedIn, Crunchbase, or any company website — no tab-switching required. Ideal for fast due diligence during live research sessions.
+</Tip>

@@ -1,0 +1,146 @@
+---
+title: "Investors API: Profile VCs, PEs, and Angel Networks"
+sidebarTitle: "Investors"
+description: "Access structured profiles for venture capital firms, private equity funds, and angel investors including AUM, portfolio holdings, investment stage focus, and recent deals."
+---
+
+The Investors API provides structured data on institutional and individual investors operating across the private markets. Each profile includes fund type, assets under management, stage and sector focus, portfolio composition, and a chronological feed of recent investment activity — giving you the context to map the competitive funding landscape around any company or deal.
+
+## Get an Investor Profile
+
+**`GET /api/v1/investors/{investorId}`**
+
+Retrieve the full profile for a single investor by their Specter ID. This endpoint covers venture capital firms, private equity funds, corporate venture arms, and active angel investors.
+
+### Path Parameters
+
+<ParamField path="investorId" type="string" required>
+  The unique Specter ID for the investor. You can obtain this from a transaction record, a company profile's investor list, or a search result.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://app.tryspecter.com/api/v1/investors/inv_03k8pq5r7s2u9t4v" \
+  --header "X-API-Key: YOUR_API_KEY"
+```
+
+### Example Response
+
+```json
+{
+  "id": "inv_03k8pq5r7s2u9t4v",
+  "name": "Meridian Ventures",
+  "type": "vc",
+  "aum_usd": 850000000,
+  "investment_stages": ["seed", "series_a", "series_b"],
+  "portfolio_count": 143,
+  "recent_investments": [
+    {
+      "company_id": "cmp_01h9xk2r4n5t8v3w",
+      "company_name": "Acme AI",
+      "round_type": "series_b",
+      "date": "2024-03-15",
+      "amount_usd": 50000000
+    },
+    {
+      "company_id": "cmp_07t3vw9x1q2m8n6r",
+      "company_name": "Orbital Health",
+      "round_type": "series_a",
+      "date": "2023-11-20",
+      "amount_usd": 18000000
+    },
+    {
+      "company_id": "cmp_05s2ru7y4p9l3k8m",
+      "company_name": "Verdant Energy",
+      "round_type": "seed",
+      "date": "2023-08-07",
+      "amount_usd": 4500000
+    }
+  ],
+  "hq": {
+    "city": "New York",
+    "country": "United States"
+  },
+  "website": "https://meridianvc.com",
+  "linkedin_url": "https://linkedin.com/company/meridian-ventures"
+}
+```
+
+### Response Fields
+
+<ResponseField name="id" type="string">
+  Specter's unique identifier for this investor. Use this ID when querying transactions or signals filtered by investor.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The investor's full firm name or display name for individual angels.
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Investor category. One of: `vc` (venture capital), `pe` (private equity), `angel` (individual angel investor), or `corporate_vc` (corporate venture arm).
+</ResponseField>
+
+<ResponseField name="aum_usd" type="integer">
+  Assets under management in USD, based on the most recent fund disclosures and public filings. May be `null` for angel investors or undisclosed funds.
+</ResponseField>
+
+<ResponseField name="investment_stages" type="array">
+  The funding stages this investor actively participates in. Values correspond to standard round types such as `seed`, `series_a`, `series_b`, `series_c`, and `growth_equity`.
+</ResponseField>
+
+<ResponseField name="portfolio_count" type="integer">
+  Total number of portfolio companies tracked by Specter for this investor, including both active and exited positions.
+</ResponseField>
+
+<ResponseField name="recent_investments" type="array">
+  The investor's most recent deal activity, sorted by date descending.
+  <Expandable title="recent_investments item fields">
+    <ResponseField name="company_id" type="string">
+      Specter ID of the portfolio company. Use this to retrieve the full company profile.
+    </ResponseField>
+    <ResponseField name="company_name" type="string">
+      Name of the company that received the investment.
+    </ResponseField>
+    <ResponseField name="round_type" type="string">
+      Round type of the investment, e.g. `seed`, `series_a`, `series_b`.
+    </ResponseField>
+    <ResponseField name="date" type="string">
+      ISO 8601 date the investment was announced or closed.
+    </ResponseField>
+    <ResponseField name="amount_usd" type="integer">
+      Investment amount in USD for this specific deal. May be `null` if undisclosed.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="hq" type="object">
+  Headquarters location of the investor.
+  <Expandable title="hq fields">
+    <ResponseField name="city" type="string">
+      City where the firm is headquartered.
+    </ResponseField>
+    <ResponseField name="country" type="string">
+      Country of the firm's primary office.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="website" type="string">
+  The investor's primary website URL.
+</ResponseField>
+
+<ResponseField name="linkedin_url" type="string">
+  LinkedIn company or profile page URL for the investor.
+</ResponseField>
+
+## Error Codes
+
+| Status | Meaning |
+|--------|---------|
+| `200` | Success — investor profile returned |
+| `401` | Missing or invalid API key |
+| `403` | Your plan does not include access to this endpoint |
+| `404` | No investor found for the provided ID |
+| `429` | Rate limit exceeded — slow down your request cadence |

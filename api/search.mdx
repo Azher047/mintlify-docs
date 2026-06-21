@@ -1,0 +1,318 @@
+---
+title: "Search API: Natural Language and Structured Queries"
+sidebarTitle: "Search"
+description: "Search 55M+ companies and 50M+ people profiles using natural language queries, structured filters, or a combination of both to power your deal flow and research workflows."
+---
+
+The Search API lets you query Specter's full intelligence graph using natural language, structured filters, or both together. You can describe what you're looking for in plain English — "growth stage AI companies in Europe with recent headcount surges" — and Specter will return ranked, enriched results. Pair natural language with filters for precision at scale, or use filters alone when you already know the exact parameters.
+
+<Tip>
+  Natural language queries are especially powerful for exploratory research. Specter's search model understands business context — you can use terms like "stealth mode infrastructure startups" or "Series A ready healthtech companies with top-tier backers" and get semantically relevant results without needing to map every concept to a specific filter.
+</Tip>
+
+## Search Companies
+
+**`POST /api/v1/companies/search`**
+
+Search across Specter's full company database using a natural language query, a structured filter set, or a combination of both. Results are returned as ranked company summaries.
+
+### Request Body
+
+<ParamField body="query" type="string">
+  A natural language description of the companies you're looking for. Example: `"growth stage AI video companies in Europe"`. Optional when using filters alone.
+</ParamField>
+
+<ParamField body="filters" type="object">
+  A structured filter object to narrow results. All sub-fields are optional and combinable.
+  <Expandable title="filter fields">
+    <ParamField body="industries" type="array">
+      List of industry tags to match against. Example: `["Artificial Intelligence", "Healthcare"]`.
+    </ParamField>
+    <ParamField body="growth_stage" type="array">
+      Filter by funding and maturity stage. Accepted values: `early_stage`, `growth_stage`, `late_stage`, `pre_launch`.
+    </ParamField>
+    <ParamField body="hq_country" type="string">
+      Filter to companies headquartered in a specific country. Example: `"Germany"`.
+    </ParamField>
+    <ParamField body="employee_count_min" type="integer">
+      Return only companies with at least this many employees.
+    </ParamField>
+    <ParamField body="employee_count_max" type="integer">
+      Return only companies with at most this many employees.
+    </ParamField>
+    <ParamField body="founded_year_min" type="integer">
+      Return only companies founded in or after this year.
+    </ParamField>
+    <ParamField body="has_funding" type="boolean">
+      When `true`, return only companies with at least one recorded funding round.
+    </ParamField>
+    <ParamField body="highlights" type="array">
+      Filter to companies with one or more of these signal labels. Example: `["headcount_surge", "top_tier_investors"]`.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="limit" type="integer">
+  Number of results to return. Defaults to `20`. Maximum is `100`.
+</ParamField>
+
+<ParamField body="offset" type="integer">
+  Number of results to skip for pagination. Defaults to `0`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://app.tryspecter.com/api/v1/companies/search" \
+  --header "X-API-Key: YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "query": "growth stage AI video companies in Europe",
+    "filters": {
+      "growth_stage": ["growth_stage"],
+      "hq_country": "Germany",
+      "has_funding": true,
+      "highlights": ["top_tier_investors"]
+    },
+    "limit": 3,
+    "offset": 0
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "cmp_23v6wz9a4b7c2d5e",
+      "organization_name": "Visora GmbH",
+      "description": "Visora builds AI-powered video generation tools for enterprise marketing teams, with clients across retail, finance, and media.",
+      "growth_stage": "growth_stage",
+      "employee_count": 187,
+      "funding": {
+        "total_funding_usd": 42000000
+      },
+      "hq": {
+        "city": "Berlin",
+        "state": null,
+        "country": "Germany",
+        "region": "Europe"
+      }
+    },
+    {
+      "id": "cmp_26y9ze2c5f8i1l4o",
+      "organization_name": "Frameloop AG",
+      "description": "Frameloop provides an AI video editing and localisation platform that helps studios and agencies ship content faster across languages and markets.",
+      "growth_stage": "growth_stage",
+      "employee_count": 94,
+      "funding": {
+        "total_funding_usd": 18500000
+      },
+      "hq": {
+        "city": "Munich",
+        "state": null,
+        "country": "Germany",
+        "region": "Europe"
+      }
+    },
+    {
+      "id": "cmp_29b2cf5h8k1n4q7t",
+      "organization_name": "Kinetic Vision",
+      "description": "Kinetic Vision applies generative AI to video analytics for sports, live events, and broadcast media organisations in Europe.",
+      "growth_stage": "growth_stage",
+      "employee_count": 61,
+      "funding": {
+        "total_funding_usd": 9800000
+      },
+      "hq": {
+        "city": "Hamburg",
+        "state": null,
+        "country": "Germany",
+        "region": "Europe"
+      }
+    }
+  ],
+  "total": 14,
+  "limit": 3,
+  "offset": 0
+}
+```
+
+### Response Fields
+
+<ResponseField name="data" type="array">
+  Array of matching company summaries, ranked by relevance.
+  <Expandable title="company summary fields">
+    <ResponseField name="id" type="string">
+      Specter unique company ID. Use this to retrieve the full company profile.
+    </ResponseField>
+    <ResponseField name="organization_name" type="string">
+      Company name.
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      Short summary of the company's product and market.
+    </ResponseField>
+    <ResponseField name="growth_stage" type="string">
+      Specter stage classification: `pre_launch`, `early_stage`, `growth_stage`, or `late_stage`.
+    </ResponseField>
+    <ResponseField name="employee_count" type="integer">
+      Current estimated headcount.
+    </ResponseField>
+    <ResponseField name="funding" type="object">
+      Summary funding data, including `total_funding_usd`.
+    </ResponseField>
+    <ResponseField name="hq" type="object">
+      Headquarters location with `city`, `state`, `country`, and `region`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of matching results before pagination.
+</ResponseField>
+
+<ResponseField name="limit" type="integer">
+  The `limit` applied to this response.
+</ResponseField>
+
+<ResponseField name="offset" type="integer">
+  The `offset` applied to this response.
+</ResponseField>
+
+---
+
+## Search People
+
+**`POST /api/v1/people/search`**
+
+Search across Specter's people database to find founders, executives, and operators matching your criteria. Combine natural language with structured filters to identify individuals by background, highlights, title, or location.
+
+### Request Body
+
+<ParamField body="query" type="string">
+  A natural language description of the people you're looking for. Example: `"serial founders with prior exits now building in AI"`. Optional when using filters alone.
+</ParamField>
+
+<ParamField body="filters" type="object">
+  A structured filter object to narrow results. All sub-fields are optional and combinable.
+  <Expandable title="filter fields">
+    <ParamField body="current_company_id" type="string">
+      Return only people currently employed at this company. Use a Specter company ID.
+    </ParamField>
+    <ParamField body="highlights" type="array">
+      Filter to people with one or more of these signal labels. Accepted values: `Prior Exit`, `Serial Founder`, `VC-Backed Founder`, `Top University`.
+    </ParamField>
+    <ParamField body="current_title_keywords" type="array">
+      Return only people whose current job title contains one or more of these keywords. Example: `["CTO", "VP Engineering"]`.
+    </ParamField>
+    <ParamField body="location_country" type="string">
+      Filter to people based in a specific country. Example: `"United Kingdom"`.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="limit" type="integer">
+  Number of results to return. Defaults to `20`. Maximum is `100`.
+</ParamField>
+
+<ParamField body="offset" type="integer">
+  Number of results to skip for pagination. Defaults to `0`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request POST \
+  --url "https://app.tryspecter.com/api/v1/people/search" \
+  --header "X-API-Key: YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "query": "serial founders with prior exits now building in AI",
+    "filters": {
+      "highlights": ["Prior Exit", "Serial Founder"],
+      "location_country": "United Kingdom"
+    },
+    "limit": 3,
+    "offset": 0
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "per_31e4gh7j2m5p8s1v",
+      "full_name": "James Whitfield",
+      "title": "Founder & CEO",
+      "current_company_name": "Pulse Inference",
+      "highlights": ["Prior Exit", "Serial Founder", "VC-Backed Founder"]
+    },
+    {
+      "id": "per_34h7kl0n5q8t2w5z",
+      "full_name": "Priya Nair",
+      "title": "Co-Founder & CTO",
+      "current_company_name": "Nuvela AI",
+      "highlights": ["Prior Exit", "Serial Founder", "Top University"]
+    },
+    {
+      "id": "per_37k0no3r8u1x4a7d",
+      "full_name": "Tom Ellison",
+      "title": "Founder",
+      "current_company_name": "Stealth — AI Infrastructure",
+      "highlights": ["Serial Founder", "Prior Exit", "VC-Backed Founder"]
+    }
+  ],
+  "total": 28,
+  "limit": 3,
+  "offset": 0
+}
+```
+
+### Response Fields
+
+<ResponseField name="data" type="array">
+  Array of matching person summaries, ranked by relevance.
+  <Expandable title="person summary fields">
+    <ResponseField name="id" type="string">
+      Specter unique person ID. Use this to retrieve the full person profile.
+    </ResponseField>
+    <ResponseField name="full_name" type="string">
+      The person's full name.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Current job title.
+    </ResponseField>
+    <ResponseField name="current_company_name" type="string">
+      Name of the person's current employer or venture.
+    </ResponseField>
+    <ResponseField name="highlights" type="array">
+      Specter signal labels from the person's profile, e.g. `Prior Exit`, `Serial Founder`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of matching results before pagination.
+</ResponseField>
+
+<ResponseField name="limit" type="integer">
+  The `limit` applied to this response.
+</ResponseField>
+
+<ResponseField name="offset" type="integer">
+  The `offset` applied to this response.
+</ResponseField>
+
+## Error Codes
+
+| Status | Meaning |
+|--------|---------|
+| `200` | Success — search results returned |
+| `401` | Missing or invalid API key |
+| `403` | Your plan does not include access to this endpoint |
+| `404` | No results found matching the specified query or filters |
+| `429` | Rate limit exceeded — slow down your request cadence |

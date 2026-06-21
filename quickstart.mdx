@@ -1,0 +1,115 @@
+---
+title: "Quickstart: Make Your First Specter API Call"
+sidebarTitle: "Quickstart"
+description: "Sign up, generate your API key, and make your first live call to Specter's REST API to access private markets intelligence on 55M+ companies."
+---
+
+Specter is an AI-powered private markets intelligence platform trusted by 300+ investment firms, giving you real-time access to data on 55M+ companies, 550M+ people, 330K+ investors, and 1M+ transactions. This page walks you through everything you need to get up and running — from requesting access to making your first live API call and exploring the full platform.
+
+<Steps>
+  <Step title="Request access">
+    Specter is available to approved investment firms and operators. To get started, request access at [tryspecter.com/contact](https://www.tryspecter.com/contact). Once approved, you'll receive an invitation to set up your account on the Specter web app at [app.tryspecter.com](https://app.tryspecter.com).
+
+    <Note>
+      Not sure if Specter is right for your team? Reach out to [azher@tryspecter.com](mailto:azher@tryspecter.com) — the team is happy to walk you through a demo.
+    </Note>
+  </Step>
+
+  <Step title="Get your API key">
+    Once your account is active, navigate to your [Specter dashboard](https://app.tryspecter.com) and locate the **API Keys** section in your account settings. Generate a new key and copy it somewhere safe — you'll use it to authenticate every API request via the `X-API-Key` header.
+
+    <Tip>
+      Keep your API key private and never commit it to source control. Use environment variables or a secrets manager to store it securely.
+    </Tip>
+  </Step>
+
+  <Step title="Make your first API call">
+    With your API key in hand, you're ready to query Specter's REST API. The base URL for all requests is `https://app.tryspecter.com/api/v1`. The example below fetches a company by its unique ID.
+
+    <CodeGroup>
+      ```bash cURL
+      curl --request GET \
+        --url https://app.tryspecter.com/api/v1/companies/{companyId} \
+        --header 'X-API-Key: YOUR_API_KEY'
+      ```
+
+      ```python Python
+      import requests
+
+      api_key = "YOUR_API_KEY"
+      company_id = "1a2b3c4d5e6g1a2b3c4d5e6g"
+
+      response = requests.get(
+          f"https://app.tryspecter.com/api/v1/companies/{company_id}",
+          headers={"X-API-Key": api_key}
+      )
+      company = response.json()
+      print(company["organization_name"])
+      ```
+
+      ```javascript JavaScript
+      const apiKey = 'YOUR_API_KEY';
+      const companyId = '1a2b3c4d5e6g1a2b3c4d5e6g';
+
+      const res = await fetch(
+        `https://app.tryspecter.com/api/v1/companies/${companyId}`,
+        { headers: { 'X-API-Key': apiKey } }
+      );
+      const company = await res.json();
+      console.log(company.organization_name);
+      ```
+    </CodeGroup>
+
+    A successful response returns a JSON object with enriched company data. Here's a truncated example of what to expect:
+
+    ```json Example Response
+    {
+      "id": "1a2b3c4d5e6g1a2b3c4d5e6g",
+      "organization_name": "Acme Capital Partners",
+      "description": "A leading mid-market private equity firm focused on technology-enabled services.",
+      "employee_count": 142,
+      "funding": {
+        "total_funding_usd": 85000000
+      },
+      "growth_stage": "Series B"
+    }
+    ```
+
+    <Note>
+      Replace `{companyId}` with a real Specter company ID. You can discover company IDs by searching in the [web app](https://app.tryspecter.com) or via the [Search API](/api/overview).
+    </Note>
+  </Step>
+
+  <Step title="Explore the platform">
+    You're in. Specter offers multiple ways to surface private markets intelligence depending on your workflow:
+
+    - **Web App** — Search, filter, and monitor companies, people, investors, and transactions at [app.tryspecter.com](https://app.tryspecter.com).
+    - **REST API** — Build programmatic workflows and integrations using the full [API Reference](/api/overview).
+    - **Chrome Extension** — Access Specter data inline as you browse LinkedIn, company websites, and more.
+    - **CRM Integrations** — Sync Specter data directly into your CRM. See [CRM Integration](/integrations/crm).
+    - **Specter MCP** — Use Specter's Model Context Protocol server to power AI agents with live private markets data.
+
+    <Tip>
+      Start with the [Company Data](/data/companies) and [Signals](/signals/overview) docs to understand the richness of data available across Specter's 55M+ company profiles.
+    </Tip>
+  </Step>
+</Steps>
+
+## What's next?
+
+Dive deeper into Specter's capabilities with these resources.
+
+<CardGroup cols={2}>
+  <Card title="Company Data" icon="building" href="/data/companies">
+    Explore the full schema for company profiles, including financials, headcount, funding history, and growth signals.
+  </Card>
+  <Card title="Signals" icon="bolt" href="/signals/overview">
+    Discover how Specter surfaces real-time buying and hiring signals to help you identify the right moment to engage.
+  </Card>
+  <Card title="CRM Integration" icon="plug" href="/integrations/crm">
+    Push Specter intelligence directly into your CRM to keep your team's data fresh without manual effort.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/overview">
+    Browse the complete REST API reference for endpoints covering companies, people, investors, and transactions.
+  </Card>
+</CardGroup>

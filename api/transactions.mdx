@@ -1,0 +1,175 @@
+---
+title: "Transactions API: Query Private Market Deal Flow"
+sidebarTitle: "Transactions"
+description: "Query funding rounds, acquisitions, and IPOs across Specter's private markets database. Filter by company, round type, date range, deal size, and more."
+---
+
+The Transactions API gives you programmatic access to Specter's private market deal flow database. You can query across millions of funding events — from pre-seed rounds to growth equity and acquisitions — and filter by company, round type, date range, and deal size. Each transaction record includes investor participants, valuation data where disclosed, and both announced and closed dates.
+
+## List Transactions
+
+**`GET /api/v1/transactions`**
+
+Retrieve a paginated list of transaction records matching your query filters. All parameters are optional — omitting filters returns the most recently recorded transactions across the full dataset.
+
+### Query Parameters
+
+<ParamField query="company_id" type="string">
+  Filter results to transactions involving a specific company. Use the Specter company ID from a profile or search result.
+</ParamField>
+
+<ParamField query="type" type="string">
+  Filter by round or transaction type. Accepted values: `angel`, `seed`, `series_a`, `series_b`, `series_c`, `growth_equity`, `acquisition`, `ipo`.
+</ParamField>
+
+<ParamField query="from_date" type="string">
+  Return only transactions on or after this date. Use ISO 8601 format, e.g. `2024-01-01`.
+</ParamField>
+
+<ParamField query="to_date" type="string">
+  Return only transactions on or before this date. Use ISO 8601 format, e.g. `2024-12-31`.
+</ParamField>
+
+<ParamField query="min_amount_usd" type="integer">
+  Filter to transactions with a disclosed deal size at or above this value in USD.
+</ParamField>
+
+<ParamField query="limit" type="integer">
+  Number of records to return per page. Defaults to `20`. Maximum is `100`.
+</ParamField>
+
+<ParamField query="offset" type="integer">
+  Number of records to skip before returning results. Use with `limit` for pagination. Defaults to `0`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl --request GET \
+  --url "https://app.tryspecter.com/api/v1/transactions?type=series_b&from_date=2024-01-01&min_amount_usd=20000000&limit=3" \
+  --header "X-API-Key: YOUR_API_KEY"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "txn_09w4xz2a5b7c1d3e",
+      "company_id": "cmp_01h9xk2r4n5t8v3w",
+      "company_name": "Acme AI",
+      "type": "series_b",
+      "amount_usd": 50000000,
+      "date": "2024-03-15",
+      "post_money_valuation_usd": 320000000,
+      "announced_date": "2024-03-12",
+      "closed_date": "2024-03-15",
+      "investors": [
+        { "name": "Meridian Ventures", "id": "inv_03k8pq5r7s2u9t4v" },
+        { "name": "Apex Capital Partners", "id": "inv_11r6sv8y3n5j2w7x" }
+      ]
+    },
+    {
+      "id": "txn_12p5ya3b6c8d4f2g",
+      "company_id": "cmp_04q1mn7r8t3v5x9z",
+      "company_name": "Luminary Health",
+      "type": "series_b",
+      "amount_usd": 35000000,
+      "date": "2024-02-22",
+      "post_money_valuation_usd": 195000000,
+      "announced_date": "2024-02-19",
+      "closed_date": "2024-02-22",
+      "investors": [
+        { "name": "HealthForward Fund", "id": "inv_07n2xq4t6p1m8r5s" },
+        { "name": "Sequent Growth", "id": "inv_15j9wv7z2k4u3o6q" }
+      ]
+    },
+    {
+      "id": "txn_15k8zb4c7d9e5g1h",
+      "company_id": "cmp_08x5pv2s9r6n7q3m",
+      "company_name": "Forge Robotics",
+      "type": "series_b",
+      "amount_usd": 28000000,
+      "date": "2024-02-05",
+      "post_money_valuation_usd": 140000000,
+      "announced_date": "2024-01-30",
+      "closed_date": "2024-02-05",
+      "investors": [
+        { "name": "Ironbridge Ventures", "id": "inv_22m4kp6w8x1r3v9t" }
+      ]
+    }
+  ],
+  "total": 284,
+  "limit": 3,
+  "offset": 0
+}
+```
+
+### Response Fields
+
+<ResponseField name="data" type="array">
+  Array of transaction records matching the query filters.
+  <Expandable title="transaction item fields">
+    <ResponseField name="id" type="string">
+      Specter's unique identifier for this transaction.
+    </ResponseField>
+    <ResponseField name="company_id" type="string">
+      Specter ID of the company that received or was involved in the transaction.
+    </ResponseField>
+    <ResponseField name="company_name" type="string">
+      Name of the company involved in the transaction.
+    </ResponseField>
+    <ResponseField name="type" type="string">
+      Transaction type, e.g. `seed`, `series_b`, `acquisition`, `ipo`.
+    </ResponseField>
+    <ResponseField name="amount_usd" type="integer">
+      Total deal size in USD. `null` if undisclosed.
+    </ResponseField>
+    <ResponseField name="date" type="string">
+      ISO 8601 canonical date for the transaction, typically the closing date.
+    </ResponseField>
+    <ResponseField name="post_money_valuation_usd" type="integer">
+      Post-money valuation in USD where disclosed. `null` otherwise.
+    </ResponseField>
+    <ResponseField name="announced_date" type="string">
+      ISO 8601 date the transaction was publicly announced.
+    </ResponseField>
+    <ResponseField name="closed_date" type="string">
+      ISO 8601 date the transaction formally closed. May differ from `announced_date`. `null` if not yet closed.
+    </ResponseField>
+    <ResponseField name="investors" type="array">
+      List of investors who participated in the round.
+      <Expandable title="investor item fields">
+        <ResponseField name="name" type="string">
+          Investor name.
+        </ResponseField>
+        <ResponseField name="id" type="string">
+          Specter investor ID. Use this to retrieve a full investor profile.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of transactions matching the query, before pagination is applied. Use this with `limit` and `offset` to paginate through all results.
+</ResponseField>
+
+<ResponseField name="limit" type="integer">
+  The `limit` value applied to this response.
+</ResponseField>
+
+<ResponseField name="offset" type="integer">
+  The `offset` value applied to this response.
+</ResponseField>
+
+## Error Codes
+
+| Status | Meaning |
+|--------|---------|
+| `200` | Success — transaction list returned |
+| `401` | Missing or invalid API key |
+| `403` | Your plan does not include access to this endpoint |
+| `404` | No transactions found matching the specified filters |
+| `429` | Rate limit exceeded — slow down your request cadence |

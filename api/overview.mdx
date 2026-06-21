@@ -1,0 +1,104 @@
+---
+title: "Specter REST API Overview: Enrich, Search, and Signal"
+sidebarTitle: "Overview"
+description: "Use the Specter REST API to build enrichment pipelines, power internal tools, and automate private market sourcing workflows with real-time data."
+---
+
+The Specter API gives you programmatic access to the same private markets intelligence that powers the Specter platform. Use it to build custom enrichment pipelines, integrate company and people data into your internal tools, or automate deal sourcing workflows — all without leaving your own environment.
+
+Every response is returned as JSON, making it straightforward to integrate Specter data into any stack or workflow.
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api/authentication">
+    Learn how to generate your API key and authenticate every request with the `X-API-Key` header.
+  </Card>
+  <Card title="Companies" icon="building" href="/api/companies">
+    Enrich company profiles with firmographics, funding history, headcount, and growth signals.
+  </Card>
+  <Card title="People" icon="user" href="/api/people">
+    Look up founders, executives, and employees with career history and contact intelligence.
+  </Card>
+  <Card title="Signals" icon="chart-line" href="/api/signals">
+    Access revenue signals, talent signals, and investor interest signals across the private market.
+  </Card>
+</CardGroup>
+
+## Base URL
+
+All API requests are made to the following base URL:
+
+```
+https://app.tryspecter.com/api/v1
+```
+
+Append the relevant resource path to this base URL when constructing your requests.
+
+## Available Endpoints
+
+The Specter API exposes the following endpoints across its core resources:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/v1/companies/{companyId}` | Retrieve a full company profile by ID |
+| `GET` | `/api/v1/people/{personId}` | Retrieve a person profile by ID |
+| `GET` | `/api/v1/investors/{investorId}` | Retrieve an investor profile by ID |
+| `GET` | `/api/v1/transactions` | List and filter investment transactions |
+| `GET` | `/api/v1/signals/revenue` | Fetch revenue signals for a company |
+| `GET` | `/api/v1/signals/talent` | Fetch talent signals for a company |
+| `GET` | `/api/v1/signals/investor-interest` | Fetch investor interest signals |
+| `POST` | `/api/v1/companies/search` | Search and filter companies by criteria |
+| `POST` | `/api/v1/people/search` | Search and filter people by criteria |
+
+## Response Format
+
+All successful responses follow a consistent JSON structure. Here is an example of a typical API response:
+
+```json
+{
+  "data": {
+    "id": "1a2b3c4d5e6g",
+    "name": "Acme Corp",
+    "website": "https://acme.com",
+    "industry": "SaaS",
+    "employeeCount": 320,
+    "totalFunding": 45000000,
+    "lastFundingRound": "Series B"
+  },
+  "meta": {
+    "requestId": "req_9xkLmZ3pQw",
+    "timestamp": "2024-11-01T12:00:00Z"
+  }
+}
+```
+
+For list-based and search endpoints, responses include a `results` array alongside pagination metadata:
+
+```json
+{
+  "results": [...],
+  "meta": {
+    "total": 148,
+    "page": 1,
+    "perPage": 20,
+    "requestId": "req_7yJnAb2rTv"
+  }
+}
+```
+
+## Error Codes
+
+The API uses standard HTTP status codes to communicate the outcome of each request. Use the table below to understand and handle errors in your integration:
+
+| Code | Meaning |
+|------|---------|
+| `200` | **Success** — the request completed successfully |
+| `401` | **Unauthorized** — your API key is invalid or missing from the request |
+| `403` | **Forbidden** — your current plan does not include access to this endpoint |
+| `404` | **Not Found** — the requested entity does not exist |
+| `429` | **Rate Limit Exceeded** — you have exceeded your plan's request limit; slow down and retry |
+
+Rate limits vary by plan. If you need higher throughput, [contact Specter support](mailto:azher@tryspecter.com) to discuss an upgraded plan.
+
+<Note>
+  Before making your first API call, make sure you have a valid API key. See the [Authentication guide](/api/authentication) for step-by-step setup instructions.
+</Note>

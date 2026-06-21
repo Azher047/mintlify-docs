@@ -1,0 +1,116 @@
+{
+  "projectType": "saas",
+  "projectName": "Specter",
+  "projectDescription": "Specter is an AI-powered private markets intelligence platform giving investors real-time data on 50M+ companies, 500M+ people, and exclusive signals for deal sourcing.",
+  "theme": "luma",
+  "primaryColor": "#54545c",
+  "lightColor": null,
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Data",
+            "pages": [
+              "data/companies",
+              "data/people",
+              "data/investors",
+              "data/transactions"
+            ]
+          },
+          {
+            "group": "Signals",
+            "pages": [
+              "signals/overview",
+              "signals/revenue",
+              "signals/talent",
+              "signals/investor-interest",
+              "signals/news"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/crm",
+              "integrations/chrome-extension",
+              "integrations/network-tracking",
+              "integrations/bulk-data",
+              "integrations/mcp"
+            ]
+          },
+          {
+            "group": "Support",
+            "pages": [
+              "faq",
+              "changelog"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api/companies",
+              "api/people",
+              "api/investors",
+              "api/transactions",
+              "api/signals",
+              "api/search"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Company intelligence on 55M+ startups and private businesses with 250+ data points",
+    "People database with 550M+ profiles including founders, operators, and investors",
+    "Real-time revenue and profitability signals from news, social, podcasts, and filings",
+    "Talent signals tracking new founders, stealth hires, and key job changes",
+    "Investor interest signals predicting funding and M&A activity before it's public",
+    "Natural language company search across 50M+ entities",
+    "CRM integrations with Attio, Affinity, Salesforce, and more",
+    "Chrome extension for in-browser company and people insights",
+    "REST API for custom enrichment and workflow automation",
+    "Specter MCP for AI-native data access in Claude, Cursor, and other agents",
+    "Bulk data delivery via AWS S3, Google Cloud, and Snowflake",
+    "Revenue and valuation estimates for every company"
+  ],
+  "publicApiSurface": [
+    "GET /api/v1/companies/{companyId}",
+    "GET /api/v1/people/{personId}",
+    "POST /api/v1/companies/search",
+    "POST /api/v1/people/search",
+    "GET /api/v1/investors/{investorId}",
+    "GET /api/v1/transactions",
+    "GET /api/v1/signals/revenue",
+    "GET /api/v1/signals/talent",
+    "GET /api/v1/signals/investor-interest",
+    "specter_find_company (MCP tool)",
+    "specter_find_person (MCP tool)",
+    "specter_search_companies (MCP tool)",
+    "specter_search_people (MCP tool)",
+    "specter_get_company_profile (MCP tool)",
+    "specter_get_company_intelligence (MCP tool)",
+    "specter_get_person_profile (MCP tool)"
+  ]
+}
