@@ -4,7 +4,7 @@ sidebarTitle: "Investors"
 description: "Profile 330K+ investors with fund details, portfolio data, stage preferences, and real-time interest signals on active deal activity."
 ---
 
-Specter tracks **330,000+ investors** — venture capital firms, private equity funds, family offices, corporate venture arms, angel networks, and sovereign wealth funds. Each profile goes beyond directory data: fund details, portfolio, historical investment patterns, and interest signals that surface which investors are actively evaluating opportunities before deals are announced.
+Specter tracks **330,000+ investors** — venture capital firms, private equity funds, family offices, corporate venture arms, angel networks, and sovereign wealth funds. Each profile goes beyond directory data: fund details, portfolio companies, stage preferences, and historical investment patterns.
 
 ## What's Covered
 
@@ -24,18 +24,7 @@ Specter tracks **330,000+ investors** — venture capital firms, private equity 
   <Card title="Targeting" icon="bullseye">
     The industries and tech verticals an investor focuses on, so you can match a thesis to a company.
   </Card>
-  <Card title="Interest Signals" icon="satellite-dish">
-    Signals that an investor is actively evaluating a company or person — surfaced before a round is announced.
-  </Card>
 </CardGroup>
-
-## Interest Signals: Know Before the Deal
-
-Specter detects when investors are **actively in deal-sourcing mode** — before a term sheet is signed or an announcement is made — by tracking observable engagement between investors and the companies and people they're evaluating. Each investor profile carries the IDs of any active interest signals, which you can pull through the Signals API.
-
-<Note>
-  Interest signals are most actionable combined with company-level tracking. Set up a watchlist of target investors and get alerted when their interest signals align with a company you're monitoring.
-</Note>
 
 ## API endpoints
 
@@ -48,8 +37,6 @@ Everything above is available through the Investors API. Full request and respon
 | `GET` | `/investors/{investorId}` | A full investor profile by ID |
 | `GET` | `/investors/{investorId}/funding-rounds` | Funding rounds the investor has participated in |
 | `POST` | `/investors/by-id/bulk` | Look up up to 50 investors in one request |
-
-Investor interest signals are part of the Signals API — see [Investor interest signals](/api/signals).
 
 <Card title="Quickstart" icon="rocket" href="/quickstart">
   New to the API? Make your first call in three steps.
