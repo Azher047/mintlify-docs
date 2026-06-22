@@ -1,0 +1,73 @@
+---
+title: "Plans & Pricing"
+sidebarTitle: "Plans & Pricing"
+description: "Specter's two API plans — Enrichment and Full — and how credits are charged per result, with rate and credit limits."
+---
+
+Specter offers two ways to use the API, and usage on both is metered in credits. Pick the plan that fits how you want to work, then see what each call costs below.
+
+## Plans
+
+Which plan you need comes down to whether you just want to enrich records you already have, or you want full access to the databases, signals, and workflow features.
+
+### Enrichment API
+
+Enrichment for teams who don't need the full Specter platform or universal search. You send a list of companies or people — from your CRM or dealflow — and get Specter's data back on them.
+
+What you get:
+
+- Targeted enrichment of a list of companies or people you provide.
+- Two endpoints: enrich companies (`POST /companies`) and enrich people (`POST /people`).
+- No web app seat required.
+
+<Note>
+  **Example.** A growth team has 2,000 leads in their CRM. They send the domains and person identifiers to the Enrichment API and get back funding rounds, headcount growth, and key executive profiles appended to each record.
+</Note>
+
+### Full API
+
+Programmatic access to Specter's full data and workflow features.
+
+What you get:
+
+- The complete Company and People databases, plus the proprietary Talent Signals and Interest Signals feeds.
+- Workflow automation: create and save searches and lists, pull all their results programmatically, and subscribe to new results as they appear.
+- Featured endpoints like verified emails and similar companies, with more added over time.
+
+<Note>
+  The Full API needs at least one seat on the Specter web app. That seat is what lets you build and manage searches and lists in the interface, then pull all their results through the API.
+</Note>
+
+<Note>
+  **Example.** A fund tracks AI startups in Europe that are raising, watches talent move from Google into these companies, and pulls founder email contacts. With the Full API, they save those searches, subscribe to updates, and join company, people, and signal data into their internal dealflow pipeline.
+</Note>
+
+## Credits
+
+Usage is metered in credits. Most calls cost credits per result returned, not per request, so a call that returns 10 records costs 10 times the per-result rate below. Managing your saved searches and lists is free; you're only billed for the records you pull back.
+
+Your plan includes a monthly credit allowance. When it runs out, calls return `402 OUT_OF_CREDITS` until your credits renew — check the `X-CreditLimit-Reset` header for timing, or contact your account team to raise the allowance.
+
+### Credits per result
+
+| Endpoint category | Credits per result |
+| --- | --- |
+| Company | 1 |
+| People | 1 |
+| Investor | 1 |
+| Transaction | 1 |
+| Email | 1 |
+| Talent Signal | 3 |
+| Interest Signal | 5 |
+| Revenue and News Signal | Coming soon |
+| Lists and saved searches (management) | 0 |
+
+A few things worth knowing:
+
+- Per result, not per request — a search that returns 50 companies costs 50 credits at the company rate.
+- Pulling list or search results bills at the record's rate. Creating, updating, and listing your saved searches and lists is free, but retrieving their results costs credits for the records returned — companies at the company rate, people at the people rate, and so on.
+- Revenue and News signals aren't metered yet. Pricing is coming soon, and until then these endpoints don't draw credits.
+
+<Note>
+  Separate from credits, you can make up to 15 requests per second per key. Exceeding that returns `429`. See the [API overview](/api/overview) for the full list of status codes.
+</Note>
