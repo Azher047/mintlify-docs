@@ -107,87 +107,99 @@
             ]
           },
           {
-            "group": "Companies",
+            "group": "Data",
             "pages": [
-              "api/companies",
               {
-                "group": "Core",
+                "group": "Companies",
                 "pages": [
-                  "POST /companies",
-                  "GET /companies/search",
-                  "GET /companies/{companyId}",
-                  "GET /companies/{companyId}/similar"
+                  "api/companies",
+                  {
+                    "group": "Core",
+                    "pages": [
+                      "POST /companies",
+                      "GET /companies/search",
+                      "GET /companies/{companyId}",
+                      "GET /companies/{companyId}/similar"
+                    ]
+                  },
+                  {
+                    "group": "Related data",
+                    "pages": [
+                      "GET /companies/{companyId}/people",
+                      "GET /companies/{companyId}/funding-rounds",
+                      "GET /companies/{companyId}/acquisitions",
+                      "GET /companies/{companyId}/ipos"
+                    ]
+                  },
+                  {
+                    "group": "Bulk",
+                    "pages": [
+                      "POST /companies/by-id/bulk",
+                      "POST /companies/similar/by-id/bulk"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "Related data",
+                "group": "People",
                 "pages": [
-                  "GET /companies/{companyId}/people",
-                  "GET /companies/{companyId}/funding-rounds",
-                  "GET /companies/{companyId}/acquisitions",
-                  "GET /companies/{companyId}/ipos"
+                  "api/people",
+                  {
+                    "group": "Core",
+                    "pages": [
+                      "POST /people",
+                      "GET /people/search",
+                      "GET /people/{personId}",
+                      "GET /people/{personId}/email",
+                      "POST /people/by-email"
+                    ]
+                  },
+                  {
+                    "group": "Bulk",
+                    "pages": [
+                      "POST /people/by-id/bulk",
+                      "POST /people/by-email/bulk"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "Bulk",
+                "group": "Investors",
                 "pages": [
-                  "POST /companies/by-id/bulk",
-                  "POST /companies/similar/by-id/bulk"
+                  "api/investors",
+                  {
+                    "group": "Core",
+                    "pages": [
+                      "GET /investors",
+                      "GET /investors/search",
+                      "GET /investors/{investorId}",
+                      "GET /investors/{investorId}/funding-rounds"
+                    ]
+                  },
+                  {
+                    "group": "Bulk",
+                    "pages": [
+                      "POST /investors/by-id/bulk"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Transactions",
+                "pages": [
+                  "api/transactions",
+                  "GET /funding-rounds/{fundingRoundId}",
+                  "GET /acquisitions/{acquisitionId}",
+                  "GET /ipos/{ipoId}"
+                ]
+              },
+              {
+                "group": "Search",
+                "pages": [
+                  "api/search",
+                  "POST /entities/text-search"
                 ]
               }
-            ]
-          },
-          {
-            "group": "People",
-            "pages": [
-              "api/people",
-              {
-                "group": "Core",
-                "pages": [
-                  "POST /people",
-                  "GET /people/search",
-                  "GET /people/{personId}",
-                  "GET /people/{personId}/email",
-                  "POST /people/by-email"
-                ]
-              },
-              {
-                "group": "Bulk",
-                "pages": [
-                  "POST /people/by-id/bulk",
-                  "POST /people/by-email/bulk"
-                ]
-              }
-            ]
-          },
-          {
-            "group": "Investors",
-            "pages": [
-              "api/investors",
-              {
-                "group": "Core",
-                "pages": [
-                  "GET /investors",
-                  "GET /investors/search",
-                  "GET /investors/{investorId}",
-                  "GET /investors/{investorId}/funding-rounds"
-                ]
-              },
-              {
-                "group": "Bulk",
-                "pages": [
-                  "POST /investors/by-id/bulk"
-                ]
-              }
-            ]
-          },
-          {
-            "group": "Transactions",
-            "pages": [
-              "api/transactions",
-              "GET /funding-rounds/{fundingRoundId}",
-              "GET /acquisitions/{acquisitionId}",
-              "GET /ipos/{ipoId}"
             ]
           },
           {
@@ -195,7 +207,7 @@
             "pages": [
               "api/signals",
               {
-                "group": "Talent & interest signals",
+                "group": "Talent & interest",
                 "pages": [
                   "GET /talent/{talentSignalId}",
                   "POST /talent/by-id/bulk",
@@ -204,14 +216,14 @@
                 ]
               },
               {
-                "group": "News signals",
+                "group": "News",
                 "pages": [
                   "GET /news-signals/{signalId}",
                   "GET /companies/{companyId}/news-signals"
                 ]
               },
               {
-                "group": "Revenue signals",
+                "group": "Revenue",
                 "pages": [
                   "GET /revenue-signals",
                   "GET /revenue-signals/{signalId}"
@@ -220,107 +232,100 @@
             ]
           },
           {
-            "group": "Search",
+            "group": "Workflows",
             "pages": [
-              "api/search",
-              "POST /entities/text-search"
-            ]
-          },
-          {
-            "group": "Saved searches",
-            "pages": [
-              "GET /searches",
-              "DELETE /searches/{searchId}",
               {
-                "group": "Company saved searches",
+                "group": "Saved searches",
                 "pages": [
-                  "GET /searches/companies/{searchId}",
-                  "GET /searches/companies/{searchId}/results",
-                  "GET /searches/companies/{searchId}/news-signals",
-                  "GET /searches/companies/{searchId}/revenue-signals"
+                  "GET /searches",
+                  "DELETE /searches/{searchId}",
+                  {
+                    "group": "Company",
+                    "pages": [
+                      "GET /searches/companies/{searchId}",
+                      "GET /searches/companies/{searchId}/results",
+                      "GET /searches/companies/{searchId}/news-signals",
+                      "GET /searches/companies/{searchId}/revenue-signals"
+                    ]
+                  },
+                  {
+                    "group": "People",
+                    "pages": [
+                      "GET /searches/people/{searchId}",
+                      "GET /searches/people/{searchId}/results"
+                    ]
+                  },
+                  {
+                    "group": "Investor",
+                    "pages": [
+                      "GET /searches/investors/{searchId}",
+                      "GET /searches/investors/{searchId}/results"
+                    ]
+                  },
+                  {
+                    "group": "Talent",
+                    "pages": [
+                      "GET /searches/talent/{searchId}",
+                      "GET /searches/talent/{searchId}/results"
+                    ]
+                  },
+                  {
+                    "group": "Investor interest",
+                    "pages": [
+                      "GET /searches/investor-interest/{searchId}",
+                      "GET /searches/investor-interest/{searchId}/results"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "People saved searches",
+                "group": "Lists",
                 "pages": [
-                  "GET /searches/people/{searchId}",
-                  "GET /searches/people/{searchId}/results"
-                ]
-              },
-              {
-                "group": "Investor saved searches",
-                "pages": [
-                  "GET /searches/investors/{searchId}",
-                  "GET /searches/investors/{searchId}/results"
-                ]
-              },
-              {
-                "group": "Talent saved searches",
-                "pages": [
-                  "GET /searches/talent/{searchId}",
-                  "GET /searches/talent/{searchId}/results"
-                ]
-              },
-              {
-                "group": "Investor interest saved searches",
-                "pages": [
-                  "GET /searches/investor-interest/{searchId}",
-                  "GET /searches/investor-interest/{searchId}/results"
+                  {
+                    "group": "Company",
+                    "pages": [
+                      "GET /lists/companies",
+                      "POST /lists/companies",
+                      "GET /lists/companies/{listId}",
+                      "PATCH /lists/companies/{listId}",
+                      "DELETE /lists/companies/{listId}",
+                      "GET /lists/companies/{listId}/results",
+                      "GET /lists/companies/{listId}/news-signals",
+                      "GET /lists/companies/{listId}/revenue-signals"
+                    ]
+                  },
+                  {
+                    "group": "People",
+                    "pages": [
+                      "GET /lists/people",
+                      "POST /lists/people",
+                      "GET /lists/people/{listId}",
+                      "PATCH /lists/people/{listId}",
+                      "DELETE /lists/people/{listId}",
+                      "GET /lists/people/{listId}/results"
+                    ]
+                  },
+                  {
+                    "group": "Investor",
+                    "pages": [
+                      "GET /lists/investors",
+                      "POST /lists/investors",
+                      "GET /lists/investors/{listId}",
+                      "PATCH /lists/investors/{listId}",
+                      "DELETE /lists/investors/{listId}",
+                      "GET /lists/investors/{listId}/results"
+                    ]
+                  }
                 ]
               }
             ]
           },
           {
-            "group": "Lists",
-            "pages": [
-              {
-                "group": "Company lists",
-                "pages": [
-                  "GET /lists/companies",
-                  "POST /lists/companies",
-                  "GET /lists/companies/{listId}",
-                  "PATCH /lists/companies/{listId}",
-                  "DELETE /lists/companies/{listId}",
-                  "GET /lists/companies/{listId}/results",
-                  "GET /lists/companies/{listId}/news-signals",
-                  "GET /lists/companies/{listId}/revenue-signals"
-                ]
-              },
-              {
-                "group": "People lists",
-                "pages": [
-                  "GET /lists/people",
-                  "POST /lists/people",
-                  "GET /lists/people/{listId}",
-                  "PATCH /lists/people/{listId}",
-                  "DELETE /lists/people/{listId}",
-                  "GET /lists/people/{listId}/results"
-                ]
-              },
-              {
-                "group": "Investor lists",
-                "pages": [
-                  "GET /lists/investors",
-                  "POST /lists/investors",
-                  "GET /lists/investors/{listId}",
-                  "PATCH /lists/investors/{listId}",
-                  "DELETE /lists/investors/{listId}",
-                  "GET /lists/investors/{listId}/results"
-                ]
-              }
-            ]
-          },
-          {
-            "group": "Network",
+            "group": "Account",
             "pages": [
               "GET /network/people",
               "GET /network/companies",
-              "GET /network/connection/{companyId}"
-            ]
-          },
-          {
-            "group": "Account & usage",
-            "pages": [
+              "GET /network/connection/{companyId}",
               "GET /organization/members",
               "GET /logs"
             ]
