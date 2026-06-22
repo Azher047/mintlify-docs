@@ -110,40 +110,75 @@
             "group": "Companies",
             "pages": [
               "api/companies",
-              "POST /companies",
-              "POST /companies/by-id/bulk",
-              "GET /companies/search",
-              "GET /companies/{companyId}",
-              "GET /companies/{companyId}/similar",
-              "POST /companies/similar/by-id/bulk",
-              "GET /companies/{companyId}/people",
-              "GET /companies/{companyId}/funding-rounds",
-              "GET /companies/{companyId}/acquisitions",
-              "GET /companies/{companyId}/ipos"
+              {
+                "group": "Core",
+                "pages": [
+                  "POST /companies",
+                  "GET /companies/search",
+                  "GET /companies/{companyId}",
+                  "GET /companies/{companyId}/similar"
+                ]
+              },
+              {
+                "group": "Related data",
+                "pages": [
+                  "GET /companies/{companyId}/people",
+                  "GET /companies/{companyId}/funding-rounds",
+                  "GET /companies/{companyId}/acquisitions",
+                  "GET /companies/{companyId}/ipos"
+                ]
+              },
+              {
+                "group": "Bulk",
+                "pages": [
+                  "POST /companies/by-id/bulk",
+                  "POST /companies/similar/by-id/bulk"
+                ]
+              }
             ]
           },
           {
             "group": "People",
             "pages": [
               "api/people",
-              "POST /people",
-              "POST /people/by-id/bulk",
-              "GET /people/search",
-              "GET /people/{personId}",
-              "GET /people/{personId}/email",
-              "POST /people/by-email",
-              "POST /people/by-email/bulk"
+              {
+                "group": "Core",
+                "pages": [
+                  "POST /people",
+                  "GET /people/search",
+                  "GET /people/{personId}",
+                  "GET /people/{personId}/email",
+                  "POST /people/by-email"
+                ]
+              },
+              {
+                "group": "Bulk",
+                "pages": [
+                  "POST /people/by-id/bulk",
+                  "POST /people/by-email/bulk"
+                ]
+              }
             ]
           },
           {
             "group": "Investors",
             "pages": [
               "api/investors",
-              "GET /investors",
-              "POST /investors/by-id/bulk",
-              "GET /investors/search",
-              "GET /investors/{investorId}",
-              "GET /investors/{investorId}/funding-rounds"
+              {
+                "group": "Core",
+                "pages": [
+                  "GET /investors",
+                  "GET /investors/search",
+                  "GET /investors/{investorId}",
+                  "GET /investors/{investorId}/funding-rounds"
+                ]
+              },
+              {
+                "group": "Bulk",
+                "pages": [
+                  "POST /investors/by-id/bulk"
+                ]
+              }
             ]
           },
           {
