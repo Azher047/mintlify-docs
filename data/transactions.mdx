@@ -4,151 +4,43 @@ sidebarTitle: "Transactions"
 description: "Query 1M+ funding rounds, M&A deals, and IPOs with structured fields for amounts, investors, valuations, and deal timelines across global private markets."
 ---
 
-Specter's transactions database captures **1 million+ funding events and M&A transactions** across the global private markets — from pre-seed checks to billion-dollar leveraged buyouts. Every transaction is structured with consistent, queryable fields so you can analyze deal activity at the company level, across a portfolio, or market-wide. Whether you're tracking competitive funding velocity, benchmarking round sizes by sector, or sourcing acquisition targets, transactions data gives you the factual foundation for every deal-related conversation.
+Specter's transactions database captures **1 million+ funding events and M&A transactions** across global private markets — from pre-seed cheques to billion-dollar buyouts. Each event is structured and consistent, so you can pull deal activity for a company, for an investor, or by a single round.
 
 ## What's Covered
 
 <CardGroup cols={2}>
-  <Card title="Funding Rounds" icon="sack-dollar" href="/data/transactions#whats-covered">
-    Pre-Seed through Growth Equity rounds with disclosed amounts, lead investors, co-investors, post-money valuations, and close dates.
+  <Card title="Funding Rounds" icon="sack-dollar">
+    Pre-Seed through growth rounds with round type, amount raised, close date, and the investors who participated.
   </Card>
-  <Card title="M&A Events" icon="handshake" href="/data/transactions#whats-covered">
-    Acquisitions, mergers, and strategic buyouts including acquirer identity, deal value where disclosed, and transaction type.
+  <Card title="M&A Events" icon="handshake">
+    Acquisitions with the acquirer, deal value where disclosed, and the date it closed.
   </Card>
-  <Card title="IPOs & Direct Listings" icon="arrow-trend-up" href="/data/transactions#whats-covered">
-    Public market debuts with offering price, shares issued, exchange, underwriters, and day-one market cap where available.
+  <Card title="IPOs & Direct Listings" icon="arrow-trend-up">
+    Public market debuts with exchange, ticker, offering price, valuation, and amount raised.
   </Card>
-  <Card title="Investor Participation" icon="users" href="/data/transactions#whats-covered">
-    Every investor recorded in a round — lead and follow-on — linked directly to their investor profile for context on check size and stage fit.
+  <Card title="Investor Participation" icon="users">
+    The investors recorded in each funding round, linked through to their full investor profiles.
   </Card>
 </CardGroup>
 
-## Transaction Data Fields
-
-Each transaction record in Specter includes a consistent set of structured fields regardless of transaction type:
-
-| Field | Description |
-|---|---|
-| `id` | Unique Specter transaction identifier |
-| `company_id` | The company that raised or was involved in the transaction |
-| `type` | Round type: `pre_seed`, `seed`, `series_a`, `series_b`, `series_c`, `series_d`, `growth_equity`, `acquisition`, `ipo` |
-| `amount_usd` | Total capital raised or deal value in USD |
-| `date` | Transaction close or announcement date |
-| `investors` | Array of participating investor IDs and names |
-| `lead_investor` | Lead investor name and ID (where identifiable) |
-| `post_money_valuation_usd` | Post-money valuation at close, where disclosed |
-| `source` | Public disclosure, press release, or regulatory filing |
-
-## API Reference
-
-Query transactions with flexible filters to pull exactly the deal data you need.
-
-```bash
-GET https://app.tryspecter.com/api/v1/transactions
-```
-
-**Headers**
-
-| Header | Value |
-|---|---|
-| `X-API-Key` | Your Specter API key |
-
-**Query Parameters**
-
-| Parameter | Type | Description |
-|---|---|---|
-| `company_id` | string | Filter to transactions involving a specific company |
-| `type` | string | Filter by transaction type (e.g. `series_a`, `acquisition`) |
-| `from_date` | date | Return transactions on or after this date (`YYYY-MM-DD`) |
-| `to_date` | date | Return transactions on or before this date (`YYYY-MM-DD`) |
-| `investor_id` | string | Filter to transactions where a specific investor participated |
-| `min_amount_usd` | integer | Minimum transaction amount in USD |
-| `max_amount_usd` | integer | Maximum transaction amount in USD |
-| `limit` | integer | Number of results to return (default: `25`, max: `100`) |
-| `offset` | integer | Pagination offset |
-
-**Example Request**
-
-```bash
-curl -X GET "https://app.tryspecter.com/api/v1/transactions?company_id=comp_01hx9z3kp2&type=series_a&from_date=2024-01-01" \
-  -H "X-API-Key: sk_live_yourApiKeyHere"
-```
-
-**Example Response**
-
-```json
-{
-  "total": 2,
-  "limit": 25,
-  "offset": 0,
-  "data": [
-    {
-      "id": "txn_88vk3n2pw0",
-      "company_id": "comp_01hx9z3kp2",
-      "company_name": "Luminary AI",
-      "type": "series_a",
-      "amount_usd": 22000000,
-      "date": "2024-03-12",
-      "lead_investor": {
-        "id": "inv_09qt5r2lc1",
-        "name": "Northlight Ventures"
-      },
-      "investors": [
-        {
-          "id": "inv_09qt5r2lc1",
-          "name": "Northlight Ventures",
-          "lead": true
-        },
-        {
-          "id": "inv_14rs6y7dk4",
-          "name": "Accel",
-          "lead": false
-        },
-        {
-          "id": "inv_23tz8u0em5",
-          "name": "Sequoia Scout Fund",
-          "lead": false
-        }
-      ],
-      "post_money_valuation_usd": 110000000,
-      "source": "press_release",
-      "created_at": "2024-03-13T07:44:00Z"
-    },
-    {
-      "id": "txn_55bh1q9rx7",
-      "company_id": "comp_01hx9z3kp2",
-      "company_name": "Luminary AI",
-      "type": "seed",
-      "amount_usd": 4500000,
-      "date": "2022-06-01",
-      "lead_investor": {
-        "id": "inv_37uw9v2fn8",
-        "name": "Adjacent Capital"
-      },
-      "investors": [
-        {
-          "id": "inv_37uw9v2fn8",
-          "name": "Adjacent Capital",
-          "lead": true
-        },
-        {
-          "id": "inv_41xy0w3go9",
-          "name": "Pioneer Fund",
-          "lead": false
-        }
-      ],
-      "post_money_valuation_usd": 18000000,
-      "source": "regulatory_filing",
-      "created_at": "2022-06-08T11:20:00Z"
-    }
-  ]
-}
-```
-
 <Note>
-  Transactions where deal terms are not publicly disclosed will have `null` values for `amount_usd` and `post_money_valuation_usd`. The transaction record itself — including investors and date — is still captured when there is sufficient public signal to confirm the event occurred.
+  Where deal terms aren't publicly disclosed, amount and valuation fields come back `null`. The transaction itself — type, date, and investors — is still captured when there's enough public signal to confirm it happened.
 </Note>
 
-<Tip>
-  Combine `investor_id` and `from_date` filters to build a real-time feed of what a specific firm has been deploying into over the last quarter. Pair this with the investor's `interest_signals` from the [Investors](/data/investors) endpoint for a complete picture of their current activity.
-</Tip>
+## API endpoints
+
+Transactions are accessed by company, by investor, or by a transaction's own Specter ID. Full request and response detail for each endpoint lives in the [API reference](/api/transactions).
+
+| Method | Endpoint | Returns |
+|---|---|---|
+| `GET` | `/companies/{companyId}/funding-rounds` | A company's funding rounds |
+| `GET` | `/companies/{companyId}/acquisitions` | A company's acquisitions |
+| `GET` | `/companies/{companyId}/ipos` | A company's IPOs |
+| `GET` | `/investors/{investorId}/funding-rounds` | Funding rounds an investor participated in |
+| `GET` | `/funding-rounds/{fundingRoundId}` | A single funding round by ID |
+| `GET` | `/acquisitions/{acquisitionId}` | A single acquisition by ID |
+| `GET` | `/ipos/{ipoId}` | A single IPO by ID |
+
+<Card title="Quickstart" icon="rocket" href="/quickstart">
+  New to the API? Make your first call in three steps.
+</Card>
