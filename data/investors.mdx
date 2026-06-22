@@ -4,133 +4,53 @@ sidebarTitle: "Investors"
 description: "Profile 330K+ investors with fund details, portfolio data, stage preferences, and real-time interest signals on active deal activity."
 ---
 
-Specter tracks **330,000+ investors** — spanning venture capital firms, private equity funds, family offices, corporate venture arms, angel networks, and sovereign wealth funds. Each investor profile goes beyond basic directory data: you get fund-level details, a structured view of their portfolio, historical investment patterns, and — critically — **interest signals** that surface which investors are actively evaluating new opportunities before deals are ever announced.
-
-Whether you're a founder researching the right lead for your next round, an investor benchmarking peers, or an advisor mapping the LP landscape, Specter's investor intelligence gives you the context to engage with precision.
+Specter tracks **330,000+ investors** — venture capital firms, private equity funds, family offices, corporate venture arms, angel networks, and sovereign wealth funds. Each profile goes beyond directory data: fund details, portfolio, historical investment patterns, and interest signals that surface which investors are actively evaluating opportunities before deals are announced.
 
 ## What's Covered
 
 <CardGroup cols={2}>
-  <Card title="Fund Details" icon="landmark" href="/data/investors#whats-covered">
-    Fund name, type (VC, PE, family office, CVC, angel), AUM, vintage year, fund number, headquarters, and team size.
+  <Card title="Fund Details" icon="landmark">
+    Named funds with announce dates and amounts raised, number of funds, founding year, and firm size.
   </Card>
-  <Card title="Portfolio Companies" icon="folder-open" href="/data/investors#whats-covered">
-    Full list of current and exited portfolio companies with entry stage, investment date, ownership signals, and current status.
+  <Card title="Portfolio Companies" icon="folder-open">
+    The Specter company IDs an investor has backed — link straight through to each company's full profile.
   </Card>
-  <Card title="Investment Stage Preferences" icon="filter" href="/data/investors#whats-covered">
+  <Card title="Investment Stage" icon="filter">
     The stages an investor most commonly deploys into — Pre-Seed, Seed, Series A, Series B, Growth, and beyond — derived from historical activity.
   </Card>
-  <Card title="Investment History" icon="clock-rotate-left" href="/data/investors#whats-covered">
-    Chronological record of every disclosed investment, co-investor relationships, typical check sizes, and sector concentration over time.
+  <Card title="Investment History" icon="clock-rotate-left">
+    Totals for investments, lead investments, and exits, plus the funding rounds an investor has participated in.
   </Card>
-  <Card title="Interest Signals" icon="satellite-dish" href="/data/investors#interest-signals-know-before-the-deal">
-    Behavioral signals — including content engagement, company profile views, and hiring patterns — that indicate an investor is actively looking in a particular sector or stage.
+  <Card title="Targeting" icon="bullseye">
+    The industries and tech verticals an investor focuses on, so you can match a thesis to a company.
   </Card>
-  <Card title="Co-Investor Network" icon="handshake" href="/data/investors#whats-covered">
-    Frequent co-investment partners, syndicate patterns, and shared portfolio companies — useful for warm introductions and round construction.
+  <Card title="Interest Signals" icon="satellite-dish">
+    Signals that an investor is actively evaluating a company or person — surfaced before a round is announced.
   </Card>
 </CardGroup>
 
 ## Interest Signals: Know Before the Deal
 
-Specter monitors publicly observable signals to identify when investors are **actively in deal-sourcing mode** — even before any term sheet is signed or announcement is made. These signals include:
-
-- **Sector engagement:** Increased activity around companies in a specific vertical
-- **Stage clustering:** Recent investments concentrated in a particular funding stage
-- **Portfolio gaps:** Sectors or geographies underrepresented relative to stated thesis
-- **Team hiring:** New investment professionals being added in a specific focus area
-- **Content & event signals:** Speaking engagements, published theses, and conference attendance patterns
+Specter detects when investors are **actively in deal-sourcing mode** — before a term sheet is signed or an announcement is made — by tracking observable engagement between investors and the companies and people they're evaluating. Each investor profile carries the IDs of any active interest signals, which you can pull through the Signals API.
 
 <Note>
-  Interest signals are updated continuously and are most actionable when combined with company-level tracking. For example, set up a watchlist of target investors and receive alerts when their interest signals align with a company you're monitoring.
+  Interest signals are most actionable combined with company-level tracking. Set up a watchlist of target investors and get alerted when their interest signals align with a company you're monitoring.
 </Note>
 
-## API Reference
+## API endpoints
 
-Retrieve a full investor profile using the investor's unique Specter identifier.
+Everything above is available through the Investors API. Full request and response detail for each endpoint lives in the [Investors API reference](/api/investors).
 
-```bash
-GET https://app.tryspecter.com/api/v1/investors/{investorId}
-```
+| Method | Endpoint | Returns |
+|---|---|---|
+| `GET` | `/investors` | Look up an investor by website or name |
+| `GET` | `/investors/search` | Find an investor by name |
+| `GET` | `/investors/{investorId}` | A full investor profile by ID |
+| `GET` | `/investors/{investorId}/funding-rounds` | Funding rounds the investor has participated in |
+| `POST` | `/investors/by-id/bulk` | Look up up to 50 investors in one request |
 
-**Headers**
+Investor interest signals are part of the Signals API — see [Investor interest signals](/api/signals).
 
-| Header | Value |
-|---|---|
-| `X-API-Key` | Your Specter API key |
-
-**Example Request**
-
-```bash
-curl -X GET "https://app.tryspecter.com/api/v1/investors/inv_09qt5r2lc1" \
-  -H "X-API-Key: sk_live_yourApiKeyHere"
-```
-
-**Example Response**
-
-```json
-{
-  "id": "inv_09qt5r2lc1",
-  "name": "Northlight Ventures",
-  "type": "vc",
-  "description": "Early-stage venture firm focused on B2B software and infrastructure across the US and Europe.",
-  "website": "https://northlightvc.com",
-  "hq": {
-    "city": "New York",
-    "state": "NY",
-    "country": "United States"
-  },
-  "aum_usd": 620000000,
-  "fund_number": 3,
-  "vintage_year": 2022,
-  "team_size": 14,
-  "investment_stages": [
-    "seed",
-    "series_a",
-    "series_b"
-  ],
-  "sector_focus": [
-    "B2B SaaS",
-    "AI & Machine Learning",
-    "Developer Tools",
-    "Fintech Infrastructure"
-  ],
-  "portfolio_count": 67,
-  "recent_investments": [
-    {
-      "company_id": "comp_01hx9z3kp2",
-      "company_name": "Luminary AI",
-      "round_type": "series_a",
-      "date": "2024-03-12"
-    },
-    {
-      "company_id": "comp_07ab4n9wq3",
-      "company_name": "Stackform",
-      "round_type": "seed",
-      "date": "2023-11-05"
-    },
-    {
-      "company_id": "comp_12cd8p1er6",
-      "company_name": "Meridian Finance",
-      "round_type": "series_b",
-      "date": "2023-07-22"
-    }
-  ],
-  "interest_signals": {
-    "active_sourcing": true,
-    "signal_sectors": ["AI & Machine Learning", "Developer Tools"],
-    "signal_stage": "series_a",
-    "signal_confidence": "high",
-    "last_updated": "2025-01-14T00:00:00Z"
-  },
-  "updated_at": "2025-01-15T09:10:33Z"
-}
-```
-
-<Tip>
-  Use `interest_signals.signal_sectors` and `interest_signals.signal_stage` to prioritize which investors to surface for a specific company. A high-confidence signal in your target sector and stage means the investor is likely in active deal flow — and more receptive to outreach now.
-</Tip>
-
-<Warning>
-  AUM figures and fund details are sourced from public disclosures and may not reflect the most recent close. For LPs or placement agents requiring precise fund data, always verify directly with the firm's IR team.
-</Warning>
+<Card title="Quickstart" icon="rocket" href="/quickstart">
+  New to the API? Make your first call in three steps.
+</Card>
