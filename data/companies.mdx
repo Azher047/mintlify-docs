@@ -3,7 +3,7 @@ title: "Company Data: 250+ Data Points Across 55M+ Companies"
 sidebarTitle: "Companies"
 description: "Access firmographics, funding history, team intelligence, web traffic metrics, and AI highlights across 55M+ private and public companies."
 ---
-Specter's company database covers **55 million+ companies** worldwide, from early-stage startups to public enterprises. Each profile holds **250+ data points** including funding, headcount, web traffic, social traction, reviews, and growth signals, so you can source deals, map a market, or validate a target from a single record.
+Specter's company database covers **55 million+ companies** worldwide, from early-stage startups to public enterprises. Each profile holds **250+ data points** — funding, headcount, web traffic, social traction, reviews, and growth signals — so you can source deals, map a market, or validate a target from a single record.
 ## Data Categories
 <CardGroup cols={2}>
   <Card title="Firmographics" icon="building">
@@ -19,7 +19,7 @@ Specter's company database covers **55 million+ companies** worldwide, from earl
     Monthly website visits, global popularity rank, bounce rate, average session duration, traffic sources, and mobile app install estimates.
   </Card>
   <Card title="Social Metrics" icon="share-nodes">
-    Follower counts and growth trends across LinkedIn, X (Twitter), Instagram, functioning as a proxy for brand traction.
+    Follower counts and growth trends across LinkedIn, X (Twitter), Instagram, Facebook, and YouTube — a proxy for brand traction.
   </Card>
   <Card title="Product Reviews" icon="star">
     Aggregated ratings and review counts from G2, Trustpilot, the Chrome Web Store, and other platforms to gauge customer satisfaction.
@@ -35,18 +35,28 @@ Specter's company database covers **55 million+ companies** worldwide, from earl
 You don't need to build complex filter stacks. Describe what you're looking for in plain English:
 > *"Show me growth stage AI video companies"*
 > *"Find B2B SaaS companies in the Nordics with 50–200 employees that raised a Series A in the last 18 months"*
-Specter maps your query to the right filters and returns a ranked list of matching companies.
+Specter maps your query to the right filters and returns a ranked list of matching companies — no manual filter configuration required.
 ## Similar Company Search
 Use the **Similar Companies** feature on any profile to surface competitors, adjacent players, and potential acquisition targets that share a company's market positioning. It's useful for:
 - **Competitive intelligence:** map a market segment before a deal closes.
 - **Sourcing alternatives:** find comparable companies when your primary target isn't available.
 - **Market sizing:** see all the meaningful players in a space in one view.
-## Next steps
-<CardGroup cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Make your first API call and pull a company in three steps.
-  </Card>
-  <Card title="Companies API" icon="code" href="/api/companies">
-    Retrieve and enrich company profiles programmatically via the REST API.
-  </Card>
-</CardGroup>
+## API endpoints
+Everything above is available through the Companies API. Full request and response detail for each endpoint lives in the [Companies API reference](/api/companies).
+
+| Method | Endpoint | Returns |
+|---|---|---|
+| `POST` | `/companies` | Enrich a company by domain, LinkedIn, or Crunchbase URL |
+| `GET` | `/companies/search` | Find a company by name |
+| `GET` | `/companies/{companyId}` | A full company profile by ID |
+| `GET` | `/companies/{companyId}/similar` | Similar companies |
+| `GET` | `/companies/{companyId}/people` | People at a company |
+| `GET` | `/companies/{companyId}/funding-rounds` | A company's funding rounds |
+| `GET` | `/companies/{companyId}/acquisitions` | A company's acquisitions |
+| `GET` | `/companies/{companyId}/ipos` | A company's IPOs |
+| `POST` | `/companies/by-id/bulk` | Enrich up to 50 companies in one request |
+| `POST` | `/companies/similar/by-id/bulk` | Similar companies for up to 50 seed companies |
+
+<Card title="Quickstart" icon="rocket" href="/quickstart">
+  New to the API? Make your first call in three steps.
+</Card>
