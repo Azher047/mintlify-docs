@@ -4,101 +4,89 @@ sidebarTitle: "Overview"
 description: "Use the Specter REST API to build enrichment pipelines, power internal tools, and automate private market sourcing workflows with real-time data."
 ---
 
-The Specter API gives you programmatic access to the same private markets intelligence that powers the Specter platform. Use it to build custom enrichment pipelines, integrate company and people data into your internal tools, or automate deal sourcing workflows — all without leaving your own environment.
+The Specter API gives you programmatic access to the same private markets intelligence that powers the Specter platform. Use it to build enrichment pipelines, pull company and people data into your own tools, or automate deal sourcing.
 
-Every response is returned as JSON, making it straightforward to integrate Specter data into any stack or workflow.
+Every response is JSON, and the resource you asked for is returned directly — no envelope to unwrap.
 
 <CardGroup cols={2}>
   <Card title="Authentication" icon="key" href="/api/authentication">
-    Learn how to generate your API key and authenticate every request with the `X-API-Key` header.
+    Generate your API key and authenticate every request with the `X-API-Key` header.
   </Card>
   <Card title="Companies" icon="building" href="/api/companies">
-    Enrich company profiles with firmographics, funding history, headcount, and growth signals.
+    Enrich and search companies; pull firmographics, funding, headcount and signals.
   </Card>
   <Card title="People" icon="user" href="/api/people">
-    Look up founders, executives, and employees with career history and contact intelligence.
+    Look up founders, executives and employees with career history and verified emails.
   </Card>
   <Card title="Signals" icon="chart-line" href="/api/signals">
-    Access revenue signals, talent signals, and investor interest signals across the private market.
+    Talent signals, revenue signals and investor interest across the private market.
   </Card>
 </CardGroup>
 
 ## Base URL
 
-All API requests are made to the following base URL:
+All requests go to:
 
 ```
 https://app.tryspecter.com/api/v1
 ```
 
-Append the relevant resource path to this base URL when constructing your requests.
+Append the resource path to this base URL when building a request.
 
-## Available Endpoints
+## Core endpoints
 
-The Specter API exposes the following endpoints across its core resources:
+A few of the most-used endpoints are below. The full list of 73 endpoints lives in the sidebar under each resource.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/api/v1/companies/{companyId}` | Retrieve a full company profile by ID |
-| `GET` | `/api/v1/people/{personId}` | Retrieve a person profile by ID |
-| `GET` | `/api/v1/investors/{investorId}` | Retrieve an investor profile by ID |
-| `GET` | `/api/v1/transactions` | List and filter investment transactions |
-| `GET` | `/api/v1/signals/revenue` | Fetch revenue signals for a company |
-| `GET` | `/api/v1/signals/talent` | Fetch talent signals for a company |
-| `GET` | `/api/v1/signals/investor-interest` | Fetch investor interest signals |
-| `POST` | `/api/v1/companies/search` | Search and filter companies by criteria |
-| `POST` | `/api/v1/people/search` | Search and filter people by criteria |
+| `POST` | `/companies` | Enrich a company by domain, LinkedIn or Crunchbase URL |
+| `GET` | `/companies/search` | Find a company by name |
+| `GET` | `/companies/{companyId}` | Get a full company profile by ID |
+| `POST` | `/people` | Enrich a person by LinkedIn URL or email |
+| `GET` | `/investors` | Look up an investor by website or name |
+| `GET` | `/talent/{talentSignalId}` | Get a talent signal by ID |
+| `GET` | `/revenue-signals` | List revenue signals |
+| `GET` | `/searches/companies/{searchId}/results` | Pull the results of a saved company search |
+| `GET` | `/lists/companies/{listId}/results` | Pull the companies in a list |
 
-## Response Format
+## Response format
 
-All successful responses follow a consistent JSON structure. Here is an example of a typical API response:
+Successful responses return the resource directly. A single record comes back as a JSON object:
 
 ```json
 {
-  "data": {
-    "id": "1a2b3c4d5e6g",
-    "name": "Acme Corp",
-    "website": "https://acme.com",
-    "industry": "SaaS",
-    "employeeCount": 320,
-    "totalFunding": 45000000,
-    "lastFundingRound": "Series B"
+  "id": "1a2b3c4d5e6g1a2b3c4d5e6g",
+  "organization_name": "Hedgehog Analytics",
+  "domain": "hedgehog_analytics.com",
+  "hq": { "city": "London", "country": "United Kingdom" },
+  "employee_count": 39,
+  "funding": {
+    "total_funding_usd": 16600000,
+    "last_funding_type": "series_a"
   },
-  "meta": {
-    "requestId": "req_9xkLmZ3pQw",
-    "timestamp": "2024-11-01T12:00:00Z"
-  }
+  "last_updated": "2026-01-01"
 }
 ```
 
-For list-based and search endpoints, responses include a `results` array alongside pagination metadata:
+Search and list endpoints return an array of records. Pagination is handled through response headers, not a wrapper object — `X-Total-Count`, `X-Page`, `X-Page-Size`, `X-Total-Pages`, and a `Link` header for first/prev/next/last.
 
-```json
-{
-  "results": [...],
-  "meta": {
-    "total": 148,
-    "page": 1,
-    "perPage": 20,
-    "requestId": "req_7yJnAb2rTv"
-  }
-}
-```
+## Error codes
 
-## Error Codes
-
-The API uses standard HTTP status codes to communicate the outcome of each request. Use the table below to understand and handle errors in your integration:
+The API uses standard HTTP status codes. Every error body carries an `errorCode` and a `message`.
 
 | Code | Meaning |
 |------|---------|
-| `200` | **Success** — the request completed successfully |
-| `401` | **Unauthorized** — your API key is invalid or missing from the request |
-| `403` | **Forbidden** — your current plan does not include access to this endpoint |
-| `404` | **Not Found** — the requested entity does not exist |
-| `429` | **Rate Limit Exceeded** — you have exceeded your plan's request limit; slow down and retry |
+| `400` | Bad request — a field is missing or malformed. Doesn't cost credits, but counts against your rate limit. |
+| `401` | Unauthorized — your key is missing or invalid. |
+| `402` | `OUT_OF_CREDITS` — your team has used its credits for the period. Check `X-CreditLimit-Reset` for when they renew. |
+| `403` | Forbidden — your plan doesn't include this endpoint. |
+| `404` | Not found — the resource doesn't exist. |
+| `422` | Validation error — the `message` explains what to fix. |
+| `429` | `RATE_LIMITED` — too many requests per second. Check `X-RateLimit-Reset`. |
+| `50x` | Server error on our side. Won't cost credits; you may have been rate limited. |
 
-Rate limits vary by plan. If you need higher throughput, [contact Specter support](mailto:azher@tryspecter.com) to discuss an upgraded plan.
+You can make up to 15 requests per second per key. Search and enrich calls draw on your credit allowance — search by the result, enrich by the record returned.
 
 <Note>
-  Before making your first API call, make sure you have a valid API key. See the [Authentication guide](/api/authentication) for step-by-step setup instructions.
+  Before your first call, generate a key. See the [Authentication guide](/api/authentication) for setup.
 </Note>
