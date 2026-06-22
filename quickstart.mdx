@@ -1,10 +1,10 @@
 ---
 title: "Quickstart: Make Your First Specter API Call"
 sidebarTitle: "Quickstart"
-description: "Sign up, generate your API key, and make your first live call to Specter's REST API to access private markets intelligence on 55M+ companies."
+description: "Request access, get your API key, and make your first live call to Specter's REST API across 55M+ companies and 550M+ people."
 ---
 
-Specter is an AI-powered private markets intelligence platform trusted by 300+ investment firms, giving you real-time access to data on 55M+ companies, 550M+ people, 330K+ investors, and 1M+ transactions. This page walks you through everything you need to get up and running — from requesting access to making your first live API call and exploring the full platform.
+Specter is an AI-powered private markets intelligence platform trusted by 300+ investment firms, with real-time data on 55M+ companies, 550M+ people, 330K+ investors, and 1M+ transactions. This page takes you from requesting access to your first live API call.
 
 <Steps>
   <Step title="Request access">
@@ -16,67 +16,87 @@ Specter is an AI-powered private markets intelligence platform trusted by 300+ i
   </Step>
 
   <Step title="Get your API key">
-    Once your account is active, navigate to your [Specter dashboard](https://app.tryspecter.com) and locate the **API Keys** section in your account settings. Generate a new key and copy it somewhere safe — you'll use it to authenticate every API request via the `X-API-Key` header.
+    Once your account is active, open the **API Console** at [app.tryspecter.com/settings/api-console](https://app.tryspecter.com/settings/api-console). Copy your team's key — you'll use it to authenticate every request via the `X-API-Key` header. If there's no key yet, click **Request API Access** and it's approved the same day.
 
     <Tip>
       Keep your API key private and never commit it to source control. Use environment variables or a secrets manager to store it securely.
     </Tip>
   </Step>
 
-  <Step title="Make your first API call">
-    With your API key in hand, you're ready to query Specter's REST API. The base URL for all requests is `https://app.tryspecter.com/api/v1`. The example below fetches a company by its unique ID.
+  <Step title="Make your first call">
+    The base URL for all requests is `https://app.tryspecter.com/api/v1`. Start by finding a company by name — this returns the basics, including the Specter ID you'll use to pull more.
 
     <CodeGroup>
       ```bash cURL
       curl --request GET \
-        --url https://app.tryspecter.com/api/v1/companies/{companyId} \
+        --url 'https://app.tryspecter.com/api/v1/companies/search?query=hedgehog' \
         --header 'X-API-Key: YOUR_API_KEY'
       ```
 
       ```python Python
       import requests
 
-      api_key = "YOUR_API_KEY"
-      company_id = "1a2b3c4d5e6g1a2b3c4d5e6g"
-
       response = requests.get(
-          f"https://app.tryspecter.com/api/v1/companies/{company_id}",
-          headers={"X-API-Key": api_key}
+          "https://app.tryspecter.com/api/v1/companies/search",
+          params={"query": "hedgehog"},
+          headers={"X-API-Key": "YOUR_API_KEY"}
       )
-      company = response.json()
-      print(company["organization_name"])
+      results = response.json()
+      print(results[0]["name"])
       ```
 
       ```javascript JavaScript
-      const apiKey = 'YOUR_API_KEY';
-      const companyId = '1a2b3c4d5e6g1a2b3c4d5e6g';
-
       const res = await fetch(
-        `https://app.tryspecter.com/api/v1/companies/${companyId}`,
-        { headers: { 'X-API-Key': apiKey } }
+        'https://app.tryspecter.com/api/v1/companies/search?query=hedgehog',
+        { headers: { 'X-API-Key': 'YOUR_API_KEY' } }
       );
-      const company = await res.json();
-      console.log(company.organization_name);
+      const results = await res.json();
+      console.log(results[0].name);
       ```
     </CodeGroup>
 
-    A successful response returns a JSON object with enriched company data. Here's a truncated example of what to expect:
+    The response is an array of matching companies:
 
-    ```json Example Response
+    ```json
+    [
+      {
+        "id": "1a2b3c4d5e6g1a2b3c4d5e6g",
+        "name": "Hedgehog Analytics",
+        "domain": "hedgehog_analytics.com",
+        "founded_year": 2019
+      }
+    ]
+    ```
+
+    If you get this back, your key works and you're talking to the API.
+  </Step>
+
+  <Step title="Pull the full profile">
+    Take the `id` from that response and fetch the full company record — funding, headcount, location, and more.
+
+    ```bash
+    curl --request GET \
+      --url https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g1a2b3c4d5e6g \
+      --header 'X-API-Key: YOUR_API_KEY'
+    ```
+
+    ```json
     {
       "id": "1a2b3c4d5e6g1a2b3c4d5e6g",
-      "organization_name": "Acme Capital Partners",
-      "description": "A leading mid-market private equity firm focused on technology-enabled services.",
-      "employee_count": 142,
+      "organization_name": "Hedgehog Analytics",
+      "domain": "hedgehog_analytics.com",
+      "hq": { "city": "London", "country": "United Kingdom" },
+      "employee_count": 39,
       "funding": {
-        "total_funding_usd": 85000000
+        "total_funding_usd": 16600000,
+        "last_funding_type": "series_a"
       },
-      "growth_stage": "Series B"
+      "last_updated": "2026-01-01"
     }
     ```
 
     <Note>
-      Replace `{companyId}` with a real Specter company ID. You can discover company IDs by searching in the [web app](https://app.tryspecter.com) or via the [Search API](/api/overview).
+      Search and enrich calls draw on your credit allowance. See the [API overview](/api/overview) for rate and credit limits.
     </Note>
   </Step>
 
