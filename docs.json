@@ -123,7 +123,12 @@
                       "GET /companies/{companyId}/people",
                       "GET /companies/{companyId}/funding-rounds",
                       "GET /companies/{companyId}/acquisitions",
-                      "GET /companies/{companyId}/ipos",
+                      "GET /companies/{companyId}/ipos"
+                    ]
+                  },
+                  {
+                    "group": "Bulk",
+                    "pages": [
                       "POST /companies/by-id/bulk",
                       "POST /companies/similar/by-id/bulk"
                     ]
@@ -141,7 +146,12 @@
                       "GET /people/search",
                       "GET /people/{personId}",
                       "GET /people/{personId}/email",
-                      "POST /people/by-email",
+                      "POST /people/by-email"
+                    ]
+                  },
+                  {
+                    "group": "Bulk",
+                    "pages": [
                       "POST /people/by-id/bulk",
                       "POST /people/by-email/bulk"
                     ]
@@ -158,7 +168,12 @@
                       "GET /investors",
                       "GET /investors/search",
                       "GET /investors/{investorId}",
-                      "GET /investors/{investorId}/funding-rounds",
+                      "GET /investors/{investorId}/funding-rounds"
+                    ]
+                  },
+                  {
+                    "group": "Bulk",
+                    "pages": [
                       "POST /investors/by-id/bulk"
                     ]
                   }
@@ -178,6 +193,14 @@
                 "pages": [
                   "api/search",
                   "POST /entities/text-search"
+                ]
+              },
+              {
+                "group": "Network Mapping",
+                "pages": [
+                  "GET /network/people",
+                  "GET /network/companies",
+                  "GET /network/connection/{companyId}"
                 ]
               }
             ]
@@ -303,9 +326,6 @@
           {
             "group": "Account",
             "pages": [
-              "GET /network/people",
-              "GET /network/companies",
-              "GET /network/connection/{companyId}",
               "GET /organization/members",
               "GET /logs"
             ]
