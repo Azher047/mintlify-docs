@@ -36,6 +36,14 @@
     "thumbsRating": true,
     "suggestEdit": true
   },
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["curl", "python", "javascript"]
+    }
+  },
   "navigation": {
     "tabs": [
       {
