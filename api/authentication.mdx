@@ -1,51 +1,47 @@
 ---
 title: "Specter API Authentication: Generate and Use API Keys"
 sidebarTitle: "Authentication"
-description: "Specter uses API key authentication. Learn how to generate your key from the dashboard and include it in every API request using the X-API-Key header."
+description: "Specter uses API key authentication. Learn how to find your team's key in the dashboard and include it in every request using the X-API-Key header."
 ---
 
-Specter uses API key authentication to secure access to the API. Every request you make must include your API key in the `X-API-Key` header — requests without a valid key will be rejected with a `401 Unauthorized` response. There are no OAuth flows or token exchanges to manage; your key is all you need.
+Specter uses API key authentication. Every request must include your key in the `X-API-Key` header — requests without a valid key are rejected with `401 Unauthorized`. There are no OAuth flows or token exchanges to manage; your key is all you need.
 
-## Getting Your API Key
+Your firm has one team-level key. Everyone on the team works from it, and rate and credit limits apply at the workspace level.
 
-Follow these steps to generate an API key from the Specter dashboard:
+## Getting your API key
 
 <Steps>
-  <Step title="Sign up or log in">
-    Visit [app.tryspecter.com](https://app.tryspecter.com) and sign in to your Specter account. If you don't have an account yet, create one for free.
+  <Step title="Get access">
+    Specter is approval-gated. If your firm isn't set up yet, request access at [tryspecter.com/contact](https://www.tryspecter.com/contact). Approved firms get an invitation to the web app.
   </Step>
-  <Step title="Open API Key settings">
-    Once logged in, navigate to **Settings → API Keys** in the left-hand sidebar of the Specter dashboard.
+  <Step title="Sign in">
+    Sign in to the [Specter dashboard](https://app.tryspecter.com).
   </Step>
-  <Step title="Generate a new API key">
-    Click **Generate API Key**. You can optionally give it a label (e.g. `production`, `staging`) to help you manage multiple keys.
+  <Step title="Open the API Console">
+    Go to **Settings → API Console** at [app.tryspecter.com/settings/api-console](https://app.tryspecter.com/settings/api-console).
   </Step>
-  <Step title="Copy and store your key securely">
-    Your new API key will be displayed once. Copy it immediately and store it in a secure location such as a password manager or secrets vault — **it will not be shown again**. If you lose it, you will need to generate a new one.
+  <Step title="Copy your key">
+    Copy your team's key and store it somewhere secure. If there's no key yet, click **Request API Access** — requests are reviewed and approved the same day.
   </Step>
 </Steps>
 
-## Making Authenticated Requests
+## Making authenticated requests
 
-Pass your API key in the `X-API-Key` header on every request. Here is a basic example using `curl`:
+Pass your key in the `X-API-Key` header on every request:
 
 ```bash
 curl --request GET \
-  --url https://app.tryspecter.com/api/v1/companies/{companyId} \
+  --url https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g1a2b3c4d5e6g \
   --header 'X-API-Key: YOUR_API_KEY'
 ```
 
-Replace `YOUR_API_KEY` with the key you copied from the dashboard, and `{companyId}` with the ID of the company you want to retrieve.
-
-## Multi-Language Examples
-
-The `X-API-Key` header works the same way across all HTTP clients. Use the examples below to get started in your preferred language:
+The header works the same way across every HTTP client:
 
 <CodeGroup>
 
 ```bash curl
 curl --request GET \
-  --url https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g \
+  --url https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g1a2b3c4d5e6g \
   --header 'X-API-Key: YOUR_API_KEY'
 ```
 
@@ -54,7 +50,7 @@ import requests
 
 headers = {"X-API-Key": "YOUR_API_KEY"}
 response = requests.get(
-    "https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g",
+    "https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g1a2b3c4d5e6g",
     headers=headers
 )
 
@@ -64,7 +60,7 @@ print(data)
 
 ```javascript JavaScript
 const response = await fetch(
-  'https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g',
+  'https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g1a2b3c4d5e6g',
   { headers: { 'X-API-Key': 'YOUR_API_KEY' } }
 );
 
@@ -73,7 +69,7 @@ console.log(data);
 ```
 
 ```go Go
-req, _ := http.NewRequest("GET", "https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g", nil)
+req, _ := http.NewRequest("GET", "https://app.tryspecter.com/api/v1/companies/1a2b3c4d5e6g1a2b3c4d5e6g", nil)
 req.Header.Set("X-API-Key", "YOUR_API_KEY")
 client := &http.Client{}
 resp, err := client.Do(req)
@@ -81,28 +77,26 @@ resp, err := client.Do(req)
 
 </CodeGroup>
 
-## Request Header Reference
+## Request header reference
 
 <ParamField header="X-API-Key" type="string" required>
-  Your Specter API key. Obtain this from **Settings → API Keys** in the [Specter dashboard](https://app.tryspecter.com). Every API request must include this header.
+  Your team's Specter API key, from **Settings → API Console** in the [dashboard](https://app.tryspecter.com/settings/api-console). Every request must include this header.
 </ParamField>
 
-## Error Handling
+## Authentication errors
 
-If your request is not authenticated correctly, the API returns one of the following errors:
-
-| Code | Cause | How to Fix |
+| Code | Cause | How to fix |
 |------|-------|------------|
-| `401` | Missing or invalid API key | Confirm you are passing the `X-API-Key` header (not `Authorization: Bearer`) and that your key is correct and active |
-| `403` | Endpoint not available on your plan | Your current plan does not include this endpoint — [contact Specter support](mailto:azher@tryspecter.com) to upgrade |
-| `429` | Rate limit exceeded | You have sent too many requests — implement exponential backoff and retry after a short delay |
+| `401` | Missing or invalid key | Confirm you're sending the `X-API-Key` header (not `Authorization: Bearer`) and that the key is correct and active. |
+| `403` | Endpoint not on your plan | Your plan doesn't include this endpoint — [contact support](mailto:azher@tryspecter.com) to upgrade. |
+| `429` | Rate limited | You've exceeded 15 requests per second. Back off and retry, checking the `X-RateLimit-Reset` header. |
 
-For `429` errors in particular, we recommend implementing exponential backoff: wait a short interval before retrying, and double the wait time with each subsequent retry until the request succeeds.
+For the full list of status codes, including credit limits, see the [API overview](/api/overview).
 
 <Warning>
-  Keep your API key confidential at all times:
+  Treat your key like a password. Anyone who has it can reach your firm's data.
 
-  - **Never** embed your API key in client-side code, browser JavaScript, or public repositories — anyone who finds it can access your account.
-  - If your key is compromised, rotate it immediately by generating a new one in the [Specter dashboard](https://app.tryspecter.com) and revoking the old one.
-  - Store your API key using environment variables (e.g. `SPECTER_API_KEY`) rather than hardcoding it in your source code.
+  - Never put it in client-side code, browser JavaScript, or a public repository.
+  - Store it in an environment variable (e.g. `SPECTER_API_KEY`), not hardcoded in source.
+  - If it's exposed, rotate it from the [API Console](https://app.tryspecter.com/settings/api-console) and the old key stops working.
 </Warning>
